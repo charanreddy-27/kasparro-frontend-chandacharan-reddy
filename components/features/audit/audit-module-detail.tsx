@@ -10,6 +10,13 @@ import {
   CardDescription,
   Badge,
   Progress,
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
 } from "@/components/ui";
 import {
   formatRelativeTime,
@@ -29,8 +36,10 @@ import {
   Clock,
   ArrowUpRight,
   ArrowDownRight,
+  HelpCircle,
 } from "lucide-react";
 import type { AuditInsight, AuditIssue, AuditRecommendation } from "@/types";
+import { motion, AnimatePresence } from "framer-motion";
 
 function InsightCard({ insight }: { insight: AuditInsight }) {
   const TrendIcon =
@@ -42,21 +51,25 @@ function InsightCard({ insight }: { insight: AuditInsight }) {
 
   const trendColor =
     insight.trend === "up"
-      ? "text-emerald-600"
+      ? "text-emerald-600 dark:text-emerald-400"
       : insight.trend === "down"
-        ? "text-red-600"
-        : "text-slate-400";
+        ? "text-red-600 dark:text-red-400"
+        : "text-slate-400 dark:text-slate-500";
 
   return (
-    <div className="rounded-lg border border-slate-200 bg-white p-4">
+    <motion.div
+      className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800"
+      whileHover={{ scale: 1.02 }}
+      transition={{ type: "spring", stiffness: 400 }}
+    >
       <div className="flex items-start justify-between">
         <div className="flex-1">
-          <p className="text-sm font-medium text-slate-900">{insight.title}</p>
-          <p className="mt-1 text-xs text-slate-500">{insight.description}</p>
+          <p className="text-sm font-medium text-slate-900 dark:text-white">{insight.title}</p>
+          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{insight.description}</p>
         </div>
         {insight.value && (
           <div className="text-right">
-            <p className="text-lg font-bold text-slate-900">{insight.value}</p>
+            <p className="text-lg font-bold text-slate-900 dark:text-white">{insight.value}</p>
             {insight.changePercent !== undefined && (
               <div className={`flex items-center gap-1 ${trendColor}`}>
                 <TrendIcon className="h-3 w-3" />
@@ -69,7 +82,7 @@ function InsightCard({ insight }: { insight: AuditInsight }) {
           </div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -77,30 +90,30 @@ function IssueCard({ issue }: { issue: AuditIssue }) {
   const severityConfig = {
     critical: {
       icon: AlertCircle,
-      color: "text-red-600",
-      bg: "bg-red-50",
-      border: "border-red-200",
+      color: "text-red-600 dark:text-red-400",
+      bg: "bg-red-50 dark:bg-red-900/20",
+      border: "border-red-200 dark:border-red-900/50",
       badge: "error" as const,
     },
     warning: {
       icon: AlertTriangle,
-      color: "text-amber-600",
-      bg: "bg-amber-50",
-      border: "border-amber-200",
+      color: "text-amber-600 dark:text-amber-400",
+      bg: "bg-amber-50 dark:bg-amber-900/20",
+      border: "border-amber-200 dark:border-amber-900/50",
       badge: "warning" as const,
     },
     info: {
       icon: Info,
-      color: "text-blue-600",
-      bg: "bg-blue-50",
-      border: "border-blue-200",
+      color: "text-blue-600 dark:text-blue-400",
+      bg: "bg-blue-50 dark:bg-blue-900/20",
+      border: "border-blue-200 dark:border-blue-900/50",
       badge: "info" as const,
     },
     success: {
       icon: CheckCircle,
-      color: "text-emerald-600",
-      bg: "bg-emerald-50",
-      border: "border-emerald-200",
+      color: "text-emerald-600 dark:text-emerald-400",
+      bg: "bg-emerald-50 dark:bg-emerald-900/20",
+      border: "border-emerald-200 dark:border-emerald-900/50",
       badge: "success" as const,
     },
   };
@@ -116,18 +129,18 @@ function IssueCard({ issue }: { issue: AuditIssue }) {
         <Icon className={`mt-0.5 h-5 w-5 ${config.color}`} />
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <p className="font-medium text-slate-900">{issue.title}</p>
+            <p className="font-medium text-slate-900 dark:text-white">{issue.title}</p>
             <Badge variant={config.badge} className="capitalize">
               {issue.severity}
             </Badge>
           </div>
-          <p className="mt-1 text-sm text-slate-600">{issue.description}</p>
+          <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{issue.description}</p>
           {issue.affectedElements && issue.affectedElements.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1">
               {issue.affectedElements.map((element, i) => (
                 <span
                   key={i}
-                  className="rounded bg-white/50 px-2 py-0.5 text-xs text-slate-600"
+                  className="rounded bg-white/50 px-2 py-0.5 text-xs text-slate-600 dark:bg-slate-800/50 dark:text-slate-300"
                 >
                   {element}
                 </span>
@@ -146,32 +159,32 @@ function RecommendationCard({
   recommendation: AuditRecommendation;
 }) {
   const priorityConfig = {
-    high: { color: "text-red-700", bg: "bg-red-100" },
-    medium: { color: "text-amber-700", bg: "bg-amber-100" },
-    low: { color: "text-blue-700", bg: "bg-blue-100" },
+    high: { color: "text-red-700 dark:text-red-300", bg: "bg-red-100 dark:bg-red-900/50" },
+    medium: { color: "text-amber-700 dark:text-amber-300", bg: "bg-amber-100 dark:bg-amber-900/50" },
+    low: { color: "text-blue-700 dark:text-blue-300", bg: "bg-blue-100 dark:bg-blue-900/50" },
   };
 
   const config = priorityConfig[recommendation.priority];
 
   return (
-    <div className="rounded-lg border border-slate-200 bg-white p-4">
+    <div className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800">
       <div className="flex items-start gap-3">
-        <div className="rounded-lg bg-indigo-100 p-2">
-          <Lightbulb className="h-4 w-4 text-indigo-600" />
+        <div className="rounded-lg bg-indigo-100 p-2 dark:bg-indigo-900/50">
+          <Lightbulb className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
         </div>
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <p className="font-medium text-slate-900">{recommendation.title}</p>
+            <p className="font-medium text-slate-900 dark:text-white">{recommendation.title}</p>
             <span
               className={`rounded-full px-2 py-0.5 text-xs font-medium capitalize ${config.bg} ${config.color}`}
             >
               {recommendation.priority}
             </span>
           </div>
-          <p className="mt-1 text-sm text-slate-600">
+          <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
             {recommendation.description}
           </p>
-          <div className="mt-2 flex items-center gap-1 text-xs text-emerald-600">
+          <div className="mt-2 flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400">
             <ArrowUpRight className="h-3 w-3" />
             <span>Expected: {recommendation.estimatedImpact}</span>
           </div>
@@ -187,138 +200,143 @@ export function AuditModuleDetail() {
 
   if (!module) {
     return (
-      <div className="flex flex-1 items-center justify-center rounded-xl border border-slate-200 bg-white p-8">
+      <div className="flex flex-1 items-center justify-center rounded-xl border border-slate-200 bg-white p-8 dark:border-slate-700 dark:bg-slate-800">
         <div className="text-center">
-          <p className="text-slate-500">Select a module to view details</p>
+          <p className="text-slate-500 dark:text-slate-400">Select a module to view details</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex-1 space-y-6 overflow-y-auto">
-      {/* Module Header */}
-      <Card>
-        <CardContent className="p-6">
-          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-slate-900">{module.name}</h1>
-              <p className="mt-1 text-slate-600">{module.description}</p>
-            </div>
-            <div className="flex items-center gap-6">
-              <div className="text-center">
-                <div
-                  className={`text-4xl font-bold ${getScoreColor(module.score)}`}
-                >
-                  {module.score}
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={module.id}
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -20 }}
+        transition={{ duration: 0.2 }}
+        className="flex-1 space-y-6 overflow-y-auto"
+      >
+        {/* Module Header */}
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+              <div>
+                <h1 className="text-2xl font-bold text-slate-900 dark:text-white">{module.name}</h1>
+                <p className="mt-1 text-slate-600 dark:text-slate-400">{module.description}</p>
+              </div>
+              <div className="flex items-center gap-6">
+                <div className="text-center">
+                  <div
+                    className={`text-4xl font-bold ${getScoreColor(module.score)}`}
+                  >
+                    {module.score}
+                  </div>
+                  <div className="text-sm text-slate-500 dark:text-slate-400">
+                    / {module.maxScore}
+                  </div>
                 </div>
-                <div className="text-sm text-slate-500">
-                  / {module.maxScore}
+                <div className="h-20 w-20">
+                  <svg
+                    className="h-full w-full -rotate-90"
+                    viewBox="0 0 36 36"
+                  >
+                    <circle
+                      cx="18"
+                      cy="18"
+                      r="16"
+                      fill="none"
+                      className="stroke-slate-200 dark:stroke-slate-700"
+                      strokeWidth="3"
+                    />
+                    <circle
+                      cx="18"
+                      cy="18"
+                      r="16"
+                      fill="none"
+                      stroke={
+                        module.score >= 80
+                          ? "#10b981"
+                          : module.score >= 60
+                            ? "#f59e0b"
+                            : "#ef4444"
+                      }
+                      strokeWidth="3"
+                      strokeDasharray={`${module.score} ${100 - module.score}`}
+                      strokeLinecap="round"
+                    />
+                  </svg>
                 </div>
               </div>
-              <div className="h-20 w-20">
-                <svg
-                  className="h-full w-full -rotate-90"
-                  viewBox="0 0 36 36"
-                >
-                  <circle
-                    cx="18"
-                    cy="18"
-                    r="16"
-                    fill="none"
-                    stroke="#e2e8f0"
-                    strokeWidth="3"
-                  />
-                  <circle
-                    cx="18"
-                    cy="18"
-                    r="16"
-                    fill="none"
-                    stroke={
-                      module.score >= 80
-                        ? "#10b981"
-                        : module.score >= 60
-                          ? "#f59e0b"
-                          : "#ef4444"
-                    }
-                    strokeWidth="3"
-                    strokeDasharray={`${module.score} ${100 - module.score}`}
-                    strokeLinecap="round"
-                  />
-                </svg>
+            </div>
+            <div className="mt-4 flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
+              <div className="flex items-center gap-1">
+                <Clock className="h-4 w-4" />
+                <span>
+                  Last updated: {formatRelativeTime(module.lastUpdated)}
+                </span>
               </div>
+              <Badge variant="success" className="capitalize">
+                {module.status}
+              </Badge>
             </div>
-          </div>
-          <div className="mt-4 flex items-center gap-4 text-sm text-slate-500">
-            <div className="flex items-center gap-1">
-              <Clock className="h-4 w-4" />
-              <span>
-                Last updated: {formatRelativeTime(module.lastUpdated)}
-              </span>
-            </div>
-            <Badge variant="success" className="capitalize">
-              {module.status}
-            </Badge>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
 
-      {/* Key Insights */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Key Insights</CardTitle>
-          <CardDescription>
-            Important metrics and trends from this module
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {module.insights.map((insight) => (
-              <InsightCard key={insight.id} insight={insight} />
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+        {/* Key Insights - Collapsible */}
+        <Accordion type="multiple" defaultValue={["insights", "issues", "recommendations"]}>
+          <AccordionItem value="insights">
+            <AccordionTrigger>
+              <div className="flex items-center gap-2">
+                <span className="text-lg font-semibold">Key Insights</span>
+                <Badge variant="primary">{module.insights.length}</Badge>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {module.insights.map((insight) => (
+                  <InsightCard key={insight.id} insight={insight} />
+                ))}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
 
-      {/* Issues */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            Issues
-            <Badge variant="error">{module.issues.length}</Badge>
-          </CardTitle>
-          <CardDescription>
-            Problems detected that may affect your score
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {module.issues.map((issue) => (
-              <IssueCard key={issue.id} issue={issue} />
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+          {/* Issues - Collapsible */}
+          <AccordionItem value="issues">
+            <AccordionTrigger>
+              <div className="flex items-center gap-2">
+                <span className="text-lg font-semibold">Issues</span>
+                <Badge variant="error">{module.issues.length}</Badge>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="space-y-4">
+                {module.issues.map((issue) => (
+                  <IssueCard key={issue.id} issue={issue} />
+                ))}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
 
-      {/* Recommendations */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            Recommendations
-            <Badge variant="primary">{module.recommendations.length}</Badge>
-          </CardTitle>
-          <CardDescription>
-            Actionable steps to improve your score
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {module.recommendations.map((rec) => (
-              <RecommendationCard key={rec.id} recommendation={rec} />
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+          {/* Recommendations - Collapsible */}
+          <AccordionItem value="recommendations">
+            <AccordionTrigger>
+              <div className="flex items-center gap-2">
+                <span className="text-lg font-semibold">Recommendations</span>
+                <Badge variant="primary">{module.recommendations.length}</Badge>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="space-y-4">
+                {module.recommendations.map((rec) => (
+                  <RecommendationCard key={rec.id} recommendation={rec} />
+                ))}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </motion.div>
+    </AnimatePresence>
   );
 }

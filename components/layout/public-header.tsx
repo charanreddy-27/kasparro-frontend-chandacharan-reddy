@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui";
+import { Button, ThemeToggle } from "@/components/ui";
 import { Menu, X, Sparkles } from "lucide-react";
 import { useState } from "react";
 
@@ -18,14 +18,14 @@ export function PublicHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-lg">
+    <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-lg dark:border-slate-700 dark:bg-slate-900/80">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-600 to-violet-600">
             <Sparkles className="h-5 w-5 text-white" />
           </div>
-          <span className="text-xl font-bold text-slate-900">Kasparro</span>
+          <span className="text-xl font-bold text-slate-900 dark:text-white">Kasparro</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -37,8 +37,8 @@ export function PublicHeader() {
               className={cn(
                 "rounded-lg px-4 py-2 text-sm font-medium transition-colors",
                 pathname === link.href
-                  ? "bg-slate-100 text-slate-900"
-                  : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                  ? "bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white"
+                  : "text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
               )}
             >
               {link.label}
@@ -46,8 +46,9 @@ export function PublicHeader() {
           ))}
         </nav>
 
-        {/* CTA Buttons */}
+        {/* CTA Buttons & Theme Toggle */}
         <div className="hidden items-center gap-3 md:flex">
+          <ThemeToggle />
           <Link href="/app/dashboard">
             <Button variant="ghost" size="sm">
               Sign In
@@ -61,21 +62,24 @@ export function PublicHeader() {
         </div>
 
         {/* Mobile Menu Button */}
-        <button
-          className="md:hidden"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          {mobileMenuOpen ? (
-            <X className="h-6 w-6 text-slate-600" />
-          ) : (
-            <Menu className="h-6 w-6 text-slate-600" />
-          )}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <ThemeToggle />
+          <button
+            className="rounded-lg p-2 text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="border-t border-slate-200 bg-white md:hidden">
+        <div className="border-t border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900 md:hidden">
           <nav className="container mx-auto flex flex-col gap-1 px-4 py-4">
             {navLinks.map((link) => (
               <Link
@@ -85,8 +89,8 @@ export function PublicHeader() {
                 className={cn(
                   "rounded-lg px-4 py-3 text-sm font-medium transition-colors",
                   pathname === link.href
-                    ? "bg-slate-100 text-slate-900"
-                    : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                    ? "bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white"
+                    : "text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
                 )}
               >
                 {link.label}
