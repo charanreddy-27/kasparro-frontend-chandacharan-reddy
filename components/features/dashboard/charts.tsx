@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import {
   ResponsiveContainer,
   BarChart,
@@ -20,7 +21,7 @@ import {
   Area,
 } from "recharts";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { ChartSkeleton } from "@/components/ui/skeleton";
 
 // ============================================
 // Types
@@ -28,8 +29,8 @@ import { useEffect, useState } from "react";
 
 interface ChartDataPoint {
   name: string;
-  value: number;
-  [key: string]: string | number;
+  value?: number;
+  [key: string]: string | number | undefined;
 }
 
 interface RadarDataPoint {
@@ -59,10 +60,17 @@ interface CustomTooltipProps {
   label?: string;
 }
 
-function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
+const CustomTooltip = React.memo(function CustomTooltip({ 
+  active, 
+  payload, 
+  label 
+}: CustomTooltipProps) {
   if (active && payload && payload.length) {
     return (
-      <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-lg dark:border-slate-700 dark:bg-slate-800">
+      <div 
+        className="rounded-lg border border-slate-200 bg-white p-3 shadow-lg dark:border-slate-700 dark:bg-slate-800"
+        role="tooltip"
+      >
         <p className="mb-2 text-sm font-medium text-slate-900 dark:text-white">
           {label}
         </p>
@@ -79,6 +87,25 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
     );
   }
   return null;
+});
+
+// ============================================
+// Chart Loading Wrapper
+// ============================================
+
+function useChartMount() {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isDark = mounted ? resolvedTheme === "dark" : false;
+  const gridColor = isDark ? "#334155" : "#e2e8f0";
+  const textColor = isDark ? "#94a3b8" : "#64748b";
+
+  return { mounted, isDark, gridColor, textColor };
 }
 
 // ============================================
@@ -99,56 +126,46 @@ const defaultSEOComparisonData: ChartDataPoint[] = [
   { name: "Bing Chat", seo: 68, ai: 74 },
 ];
 
-export function SEOComparisonChart({
+export const SEOComparisonChart = React.memo(function SEOComparisonChart({
   data = defaultSEOComparisonData,
   height = 300,
 }: SEOComparisonChartProps) {
-  const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const { mounted, gridColor, textColor } = useChartMount();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  // Generate screen reader description
+  const chartDescription = React.useMemo(() => {
+    return data.map(d => `${d.name}: SEO ${d.seo}, AI ${d.ai}`).join("; ");
+  }, [data]);
 
   if (!mounted) {
-    return (
-      <div
-        className="flex items-center justify-center bg-slate-50 dark:bg-slate-800/50 rounded-lg"
-        style={{ height }}
-      >
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-indigo-600 border-t-transparent" />
-      </div>
-    );
+    return <ChartSkeleton height={height} type="bar" />;
   }
 
-  const isDark = resolvedTheme === "dark";
-  const gridColor = isDark ? "#334155" : "#e2e8f0";
-  const textColor = isDark ? "#94a3b8" : "#64748b";
-
   return (
-    <ResponsiveContainer width="100%" height={height}>
-      <BarChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
-        <XAxis
-          dataKey="name"
-          tick={{ fill: textColor, fontSize: 12 }}
-          tickLine={{ stroke: gridColor }}
-          axisLine={{ stroke: gridColor }}
-        />
-        <YAxis
-          tick={{ fill: textColor, fontSize: 12 }}
-          tickLine={{ stroke: gridColor }}
-          axisLine={{ stroke: gridColor }}
-          domain={[0, 100]}
-        />
-        <Tooltip content={<CustomTooltip />} />
-        <Legend
-          wrapperStyle={{ paddingTop: 20 }}
-          formatter={(value) => (
-            <span className="text-sm text-slate-600 dark:text-slate-300">
-              {value}
-            </span>
-          )}
+    <div role="img" aria-label={`SEO vs AI Visibility comparison chart. ${chartDescription}`}>
+      <ResponsiveContainer width="100%" height={height}>
+        <BarChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
+          <XAxis
+            dataKey="name"
+            tick={{ fill: textColor, fontSize: 12 }}
+            tickLine={{ stroke: gridColor }}
+            axisLine={{ stroke: gridColor }}
+          />
+          <YAxis
+            tick={{ fill: textColor, fontSize: 12 }}
+            tickLine={{ stroke: gridColor }}
+            axisLine={{ stroke: gridColor }}
+            domain={[0, 100]}
+          />
+          <Tooltip content={<CustomTooltip />} />
+          <Legend
+            wrapperStyle={{ paddingTop: 20 }}
+            formatter={(value) => (
+              <span className="text-sm text-slate-600 dark:text-slate-300">
+                {value}
+              </span>
+            )}
         />
         <Bar
           dataKey="seo"
@@ -164,8 +181,9 @@ export function SEOComparisonChart({
         />
       </BarChart>
     </ResponsiveContainer>
+    </div>
   );
-}
+});
 
 // ============================================
 // AI Readiness Radar Chart
@@ -185,73 +203,63 @@ const defaultRadarData: RadarDataPoint[] = [
   { metric: "Brand Authority", current: 78, benchmark: 72, fullMark: 100 },
 ];
 
-export function AIReadinessRadar({
+export const AIReadinessRadar = React.memo(function AIReadinessRadar({
   data = defaultRadarData,
   height = 350,
 }: AIReadinessRadarProps) {
-  const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const { mounted, gridColor, textColor } = useChartMount();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const chartDescription = React.useMemo(() => {
+    return data.map(d => `${d.metric}: ${d.current} (benchmark: ${d.benchmark})`).join("; ");
+  }, [data]);
 
   if (!mounted) {
-    return (
-      <div
-        className="flex items-center justify-center bg-slate-50 dark:bg-slate-800/50 rounded-lg"
-        style={{ height }}
-      >
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-indigo-600 border-t-transparent" />
-      </div>
-    );
+    return <ChartSkeleton height={height} type="radar" />;
   }
 
-  const isDark = resolvedTheme === "dark";
-  const gridColor = isDark ? "#334155" : "#e2e8f0";
-  const textColor = isDark ? "#94a3b8" : "#64748b";
-
   return (
-    <ResponsiveContainer width="100%" height={height}>
-      <RadarChart data={data} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
-        <PolarGrid stroke={gridColor} />
-        <PolarAngleAxis
-          dataKey="metric"
-          tick={{ fill: textColor, fontSize: 11 }}
-        />
-        <PolarRadiusAxis
-          angle={30}
-          domain={[0, 100]}
-          tick={{ fill: textColor, fontSize: 10 }}
-        />
-        <Radar
-          name="Your Score"
-          dataKey="current"
-          stroke="#6366f1"
-          fill="#6366f1"
-          fillOpacity={0.3}
-        />
-        <Radar
-          name="Industry Benchmark"
-          dataKey="benchmark"
-          stroke="#8b5cf6"
-          fill="#8b5cf6"
-          fillOpacity={0.1}
-          strokeDasharray="4 4"
-        />
-        <Legend
-          wrapperStyle={{ paddingTop: 20 }}
-          formatter={(value) => (
-            <span className="text-sm text-slate-600 dark:text-slate-300">
-              {value}
-            </span>
-          )}
-        />
-        <Tooltip content={<CustomTooltip />} />
-      </RadarChart>
-    </ResponsiveContainer>
+    <div role="img" aria-label={`AI Readiness radar chart. ${chartDescription}`}>
+      <ResponsiveContainer width="100%" height={height}>
+        <RadarChart data={data} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
+          <PolarGrid stroke={gridColor} />
+          <PolarAngleAxis
+            dataKey="metric"
+            tick={{ fill: textColor, fontSize: 11 }}
+          />
+          <PolarRadiusAxis
+            angle={30}
+            domain={[0, 100]}
+            tick={{ fill: textColor, fontSize: 10 }}
+          />
+          <Radar
+            name="Your Score"
+            dataKey="current"
+            stroke="#6366f1"
+            fill="#6366f1"
+            fillOpacity={0.3}
+          />
+          <Radar
+            name="Industry Benchmark"
+            dataKey="benchmark"
+            stroke="#8b5cf6"
+            fill="#8b5cf6"
+            fillOpacity={0.1}
+            strokeDasharray="4 4"
+          />
+          <Legend
+            wrapperStyle={{ paddingTop: 20 }}
+            formatter={(value) => (
+              <span className="text-sm text-slate-600 dark:text-slate-300">
+                {value}
+              </span>
+            )}
+          />
+          <Tooltip content={<CustomTooltip />} />
+        </RadarChart>
+      </ResponsiveContainer>
+    </div>
   );
-}
+});
 
 // ============================================
 // Trend Line Chart
@@ -278,87 +286,80 @@ const defaultTrendData: TrendDataPoint[] = [
   { date: "Dec", score: 82, benchmark: 74 },
 ];
 
-export function TrendChart({
+export const TrendChart = React.memo(function TrendChart({
   data = defaultTrendData,
   height = 300,
   showBenchmark = true,
 }: TrendChartProps) {
-  const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const { mounted, gridColor, textColor } = useChartMount();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const chartDescription = React.useMemo(() => {
+    const start = data[0];
+    const end = data[data.length - 1];
+    const change = end.score - start.score;
+    return `Trend from ${start.date} (${start.score}) to ${end.date} (${end.score}). ${change >= 0 ? "Increased" : "Decreased"} by ${Math.abs(change)} points.`;
+  }, [data]);
 
   if (!mounted) {
-    return (
-      <div
-        className="flex items-center justify-center bg-slate-50 dark:bg-slate-800/50 rounded-lg"
-        style={{ height }}
-      >
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-indigo-600 border-t-transparent" />
-      </div>
-    );
+    return <ChartSkeleton height={height} type="line" />;
   }
 
-  const isDark = resolvedTheme === "dark";
-  const gridColor = isDark ? "#334155" : "#e2e8f0";
-  const textColor = isDark ? "#94a3b8" : "#64748b";
-
   return (
-    <ResponsiveContainer width="100%" height={height}>
-      <AreaChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-        <defs>
-          <linearGradient id="colorScore" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3} />
-            <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
-          </linearGradient>
-        </defs>
-        <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
-        <XAxis
-          dataKey="date"
-          tick={{ fill: textColor, fontSize: 12 }}
-          tickLine={{ stroke: gridColor }}
-          axisLine={{ stroke: gridColor }}
-        />
-        <YAxis
-          tick={{ fill: textColor, fontSize: 12 }}
-          tickLine={{ stroke: gridColor }}
-          axisLine={{ stroke: gridColor }}
-          domain={[40, 100]}
-        />
-        <Tooltip content={<CustomTooltip />} />
-        <Legend
-          wrapperStyle={{ paddingTop: 20 }}
-          formatter={(value) => (
-            <span className="text-sm text-slate-600 dark:text-slate-300">
-              {value}
-            </span>
-          )}
-        />
-        <Area
-          type="monotone"
-          dataKey="score"
-          name="AI Visibility Score"
-          stroke="#6366f1"
-          strokeWidth={2}
-          fill="url(#colorScore)"
-        />
-        {showBenchmark && (
-          <Line
-            type="monotone"
-            dataKey="benchmark"
-            name="Industry Benchmark"
-            stroke="#8b5cf6"
-            strokeWidth={2}
-            strokeDasharray="5 5"
-            dot={false}
+    <div role="img" aria-label={`AI Visibility trend chart. ${chartDescription}`}>
+      <ResponsiveContainer width="100%" height={height}>
+        <AreaChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+          <defs>
+            <linearGradient id="colorScore" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3} />
+              <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
+            </linearGradient>
+          </defs>
+          <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
+          <XAxis
+            dataKey="date"
+            tick={{ fill: textColor, fontSize: 12 }}
+            tickLine={{ stroke: gridColor }}
+            axisLine={{ stroke: gridColor }}
           />
-        )}
-      </AreaChart>
-    </ResponsiveContainer>
+          <YAxis
+            tick={{ fill: textColor, fontSize: 12 }}
+            tickLine={{ stroke: gridColor }}
+            axisLine={{ stroke: gridColor }}
+            domain={[40, 100]}
+          />
+          <Tooltip content={<CustomTooltip />} />
+          <Legend
+            wrapperStyle={{ paddingTop: 20 }}
+            formatter={(value) => (
+              <span className="text-sm text-slate-600 dark:text-slate-300">
+                {value}
+              </span>
+            )}
+          />
+          <Area
+            type="monotone"
+            dataKey="score"
+            name="AI Visibility Score"
+            stroke="#6366f1"
+            strokeWidth={2}
+            fill="url(#colorScore)"
+          />
+          {showBenchmark && (
+            <Line
+              type="monotone"
+              dataKey="benchmark"
+              name="Industry Benchmark"
+              stroke="#8b5cf6"
+              strokeWidth={2}
+              strokeDasharray="5 5"
+              dot={false}
+            />
+          )}
+        </AreaChart>
+      </ResponsiveContainer>
+    </div>
   );
-}
+});
 
 // ============================================
 // Score Gauge Component
@@ -372,7 +373,7 @@ interface ScoreGaugeProps {
   showPercentage?: boolean;
 }
 
-export function ScoreGauge({
+export const ScoreGauge = React.memo(function ScoreGauge({
   score,
   maxScore = 100,
   size = "md",
@@ -398,8 +399,19 @@ export function ScoreGauge({
     return "#ef4444";
   };
 
+  const getStatus = () => {
+    if (percentage >= 80) return "excellent";
+    if (percentage >= 60) return "good";
+    if (percentage >= 40) return "needs improvement";
+    return "critical";
+  };
+
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div 
+      className="flex flex-col items-center gap-2"
+      role="img"
+      aria-label={`${label || "Score"}: ${score} out of ${maxScore}, rated ${getStatus()}`}
+    >
       <div className="relative" style={{ width: config.outer, height: config.outer }}>
         <svg
           className="-rotate-90"
@@ -426,11 +438,11 @@ export function ScoreGauge({
             strokeLinecap="round"
             strokeDasharray={circumference}
             strokeDashoffset={offset}
-            className="transition-all duration-1000 ease-out"
+            className="transition-all duration-1000 ease-out motion-reduce:transition-none"
           />
         </svg>
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className={`font-bold text-slate-900 dark:text-white ${config.fontSize}`}>
+          <span className={`font-bold text-slate-900 dark:text-white ${config.fontSize}`} aria-hidden="true">
             {showPercentage ? `${Math.round(percentage)}%` : score}
           </span>
         </div>
@@ -442,7 +454,7 @@ export function ScoreGauge({
       )}
     </div>
   );
-}
+});
 
 // ============================================
 // Module Score Distribution
@@ -459,77 +471,70 @@ interface ModuleScoreChartProps {
   height?: number;
 }
 
-export function ModuleScoreChart({
+export const ModuleScoreChart = React.memo(function ModuleScoreChart({
   modules,
   height = 300,
 }: ModuleScoreChartProps) {
-  const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const { mounted, isDark, gridColor, textColor } = useChartMount();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const chartDescription = React.useMemo(() => {
+    return modules.map(m => `${m.name}: ${m.score} of ${m.maxScore}`).join("; ");
+  }, [modules]);
+
+  const chartData = React.useMemo(() => 
+    modules.map((m) => ({
+      name: m.name,
+      score: m.score,
+      remaining: m.maxScore - m.score,
+    })),
+    [modules]
+  );
 
   if (!mounted) {
-    return (
-      <div
-        className="flex items-center justify-center bg-slate-50 dark:bg-slate-800/50 rounded-lg"
-        style={{ height }}
-      >
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-indigo-600 border-t-transparent" />
-      </div>
-    );
+    return <ChartSkeleton height={height} type="bar" />;
   }
 
-  const isDark = resolvedTheme === "dark";
-  const gridColor = isDark ? "#334155" : "#e2e8f0";
-  const textColor = isDark ? "#94a3b8" : "#64748b";
-
-  const chartData = modules.map((m) => ({
-    name: m.name,
-    score: m.score,
-    remaining: m.maxScore - m.score,
-  }));
-
   return (
-    <ResponsiveContainer width="100%" height={height}>
-      <BarChart
-        data={chartData}
-        layout="vertical"
-        margin={{ top: 20, right: 30, left: 100, bottom: 5 }}
-      >
-        <CartesianGrid strokeDasharray="3 3" stroke={gridColor} horizontal={false} />
-        <XAxis
-          type="number"
-          domain={[0, 100]}
-          tick={{ fill: textColor, fontSize: 12 }}
-          tickLine={{ stroke: gridColor }}
-          axisLine={{ stroke: gridColor }}
-        />
-        <YAxis
-          type="category"
-          dataKey="name"
-          tick={{ fill: textColor, fontSize: 12 }}
-          tickLine={{ stroke: gridColor }}
-          axisLine={{ stroke: gridColor }}
-          width={90}
-        />
-        <Tooltip content={<CustomTooltip />} />
-        <Bar
-          dataKey="score"
-          name="Score"
-          stackId="a"
-          fill="#6366f1"
-          radius={[0, 4, 4, 0]}
-        />
-        <Bar
-          dataKey="remaining"
-          name="Remaining"
-          stackId="a"
-          fill={isDark ? "#334155" : "#e2e8f0"}
-          radius={[0, 4, 4, 0]}
-        />
-      </BarChart>
-    </ResponsiveContainer>
+    <div role="img" aria-label={`Module score distribution chart. ${chartDescription}`}>
+      <ResponsiveContainer width="100%" height={height}>
+        <BarChart
+          data={chartData}
+          layout="vertical"
+          margin={{ top: 20, right: 30, left: 100, bottom: 5 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" stroke={gridColor} horizontal={false} />
+          <XAxis
+            type="number"
+            domain={[0, 100]}
+            tick={{ fill: textColor, fontSize: 12 }}
+            tickLine={{ stroke: gridColor }}
+            axisLine={{ stroke: gridColor }}
+          />
+          <YAxis
+            type="category"
+            dataKey="name"
+            tick={{ fill: textColor, fontSize: 12 }}
+            tickLine={{ stroke: gridColor }}
+            axisLine={{ stroke: gridColor }}
+            width={90}
+          />
+          <Tooltip content={<CustomTooltip />} />
+          <Bar
+            dataKey="score"
+            name="Score"
+            stackId="a"
+            fill="#6366f1"
+            radius={[0, 4, 4, 0]}
+          />
+          <Bar
+            dataKey="remaining"
+            name="Remaining"
+            stackId="a"
+            fill={isDark ? "#334155" : "#e2e8f0"}
+            radius={[0, 4, 4, 0]}
+          />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
   );
-}
+});

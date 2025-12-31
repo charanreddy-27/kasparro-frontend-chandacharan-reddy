@@ -8,6 +8,7 @@ interface TooltipContextValue {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   delayDuration: number;
+  tooltipId: string;
 }
 
 const TooltipContext = React.createContext<TooltipContextValue | undefined>(
@@ -39,11 +40,14 @@ interface TooltipProps {
   delayDuration?: number;
 }
 
+let tooltipIdCounter = 0;
+
 export function Tooltip({ children, delayDuration = 200 }: TooltipProps) {
   const [open, setOpen] = React.useState(false);
+  const tooltipId = React.useMemo(() => `tooltip-${++tooltipIdCounter}`, []);
 
   return (
-    <TooltipContext.Provider value={{ open, setOpen, delayDuration }}>
+    <TooltipContext.Provider value={{ open, setOpen, delayDuration, tooltipId }}>
       <div className="relative inline-flex">{children}</div>
     </TooltipContext.Provider>
   );
@@ -60,7 +64,7 @@ export function TooltipTrigger({
   asChild,
   className,
 }: TooltipTriggerProps) {
-  const { setOpen, delayDuration } = useTooltip();
+  const { setOpen, delayDuration, tooltipId } = useTooltip();
   const timeoutRef = React.useRef<NodeJS.Timeout | null>(null);
 
   const handleMouseEnter = () => {
@@ -76,6 +80,12 @@ export function TooltipTrigger({
     setOpen(false);
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === "Escape") {
+      setOpen(false);
+    }
+  };
+
   React.useEffect(() => {
     return () => {
       if (timeoutRef.current) {
@@ -85,11 +95,13 @@ export function TooltipTrigger({
   }, []);
 
   if (asChild && React.isValidElement(children)) {
-    return React.cloneElement(children as React.ReactElement, {
+    return React.cloneElement(children as React.ReactElement<React.HTMLAttributes<HTMLElement>>, {
       onMouseEnter: handleMouseEnter,
       onMouseLeave: handleMouseLeave,
       onFocus: () => setOpen(true),
       onBlur: () => setOpen(false),
+      onKeyDown: handleKeyDown,
+      "aria-describedby": tooltipId,
     });
   }
 
@@ -99,7 +111,10 @@ export function TooltipTrigger({
       onMouseLeave={handleMouseLeave}
       onFocus={() => setOpen(true)}
       onBlur={() => setOpen(false)}
-      className={cn("inline-flex", className)}
+      onKeyDown={handleKeyDown}
+      className={cn("inline-flex cursor-help", className)}
+      tabIndex={0}
+      aria-describedby={tooltipId}
     >
       {children}
     </div>
@@ -121,7 +136,7 @@ export function TooltipContent({
   className,
   sideOffset = 8,
 }: TooltipContentProps) {
-  const { open } = useTooltip();
+  const { open, tooltipId } = useTooltip();
 
   const positionClasses = {
     top: `bottom-full mb-2`,
@@ -143,17 +158,20 @@ export function TooltipContent({
     <AnimatePresence>
       {open && (
         <motion.div
+          id={tooltipId}
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.96 }}
           transition={{ duration: 0.15 }}
           className={cn(
             "absolute z-50 max-w-xs rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700 shadow-lg dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200",
+            "motion-reduce:transition-none",
             positionClasses[side],
             alignClasses[align],
             className
           )}
           role="tooltip"
+          aria-hidden={!open}
         >
           {children}
         </motion.div>

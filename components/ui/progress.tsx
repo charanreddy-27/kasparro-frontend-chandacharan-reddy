@@ -9,6 +9,8 @@ interface ProgressProps extends React.HTMLAttributes<HTMLDivElement> {
   showLabel?: boolean;
   size?: "sm" | "md" | "lg";
   color?: "default" | "success" | "warning" | "error";
+  /** Accessible label for screen readers */
+  "aria-label"?: string;
 }
 
 const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
@@ -20,6 +22,7 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
       showLabel = false,
       size = "md",
       color = "default",
+      "aria-label": ariaLabel,
       ...props
     },
     ref
@@ -42,6 +45,11 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
     return (
       <div className={cn("w-full", className)} ref={ref} {...props}>
         <div
+          role="progressbar"
+          aria-valuenow={Math.round(percentage)}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-label={ariaLabel || `Progress: ${Math.round(percentage)}%`}
           className={cn(
             "w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-700",
             sizeClasses[size]
@@ -49,14 +57,16 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
         >
           <div
             className={cn(
-              "h-full rounded-full transition-all duration-500 ease-out",
+              "h-full rounded-full transition-all duration-500 ease-out motion-reduce:transition-none",
               colorClasses[color]
             )}
             style={{ width: `${percentage}%` }}
           />
         </div>
         {showLabel && (
-          <span className="mt-1 text-xs text-slate-500 dark:text-slate-400">{Math.round(percentage)}%</span>
+          <span className="mt-1 text-xs text-slate-500 dark:text-slate-400" aria-hidden="true">
+            {Math.round(percentage)}%
+          </span>
         )}
       </div>
     );
