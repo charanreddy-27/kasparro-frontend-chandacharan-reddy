@@ -60,18 +60,18 @@ export function HeroSection() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="flex flex-col items-center justify-center gap-4 sm:flex-row"
           >
-            <Link href="/app/dashboard">
-              <Button variant="primary" size="xl">
+            <Button variant="primary" size="xl" asChild>
+              <Link href="/app/dashboard">
                 Run AI-SEO Audit
                 <ArrowRight className="h-5 w-5" />
-              </Button>
-            </Link>
-            <Link href="/platform">
-              <Button variant="outline" size="xl">
+              </Link>
+            </Button>
+            <Button variant="outline" size="xl" asChild>
+              <Link href="/platform">
                 <Play className="h-5 w-5" />
                 See How It Works
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </motion.div>
 
           {/* Trust Badges */}

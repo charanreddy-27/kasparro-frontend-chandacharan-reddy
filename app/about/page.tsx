@@ -224,15 +224,16 @@ export default function AboutPage() {
             <p className="mb-8 text-lg text-indigo-100">
               See how Kasparro can help your brand win in AI-first search.
             </p>
-            <Link href="/app/dashboard">
-              <Button
-                size="xl"
-                className="bg-white text-indigo-700 hover:bg-indigo-50"
-              >
+            <Button
+              size="xl"
+              className="bg-white text-indigo-700 hover:bg-indigo-50"
+              asChild
+            >
+              <Link href="/app/dashboard">
                 Explore the Dashboard
                 <ArrowRight className="h-5 w-5" />
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </div>
         </section>
       </main>

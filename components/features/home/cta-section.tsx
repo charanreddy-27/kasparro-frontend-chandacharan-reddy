@@ -22,15 +22,16 @@ export function CtaSection() {
             Run your first AI-SEO audit and discover how AI sees your brand.
             Get actionable insights in minutes.
           </p>
-          <Link href="/app/dashboard">
-            <Button
-              size="xl"
-              className="bg-white text-indigo-700 hover:bg-indigo-50"
-            >
+          <Button
+            size="xl"
+            className="bg-white text-indigo-700 hover:bg-indigo-50"
+            asChild
+          >
+            <Link href="/app/dashboard">
               Start Free Audit
               <ArrowRight className="h-5 w-5" />
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </motion.div>
       </div>
     </section>

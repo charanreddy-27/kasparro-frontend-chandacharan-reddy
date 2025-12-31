@@ -49,16 +49,16 @@ export function PublicHeader() {
         {/* CTA Buttons & Theme Toggle */}
         <div className="hidden items-center gap-3 md:flex">
           <ThemeToggle />
-          <Link href="/app/dashboard">
-            <Button variant="ghost" size="sm">
+          <Button variant="ghost" size="sm" asChild>
+            <Link href="/app/dashboard">
               Sign In
-            </Button>
-          </Link>
-          <Link href="/app/dashboard">
-            <Button variant="primary" size="sm">
+            </Link>
+          </Button>
+          <Button variant="primary" size="sm" asChild>
+            <Link href="/app/dashboard">
               Run AI-SEO Audit
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </div>
 
         {/* Mobile Menu Button */}
@@ -97,16 +97,16 @@ export function PublicHeader() {
               </Link>
             ))}
             <div className="mt-4 flex flex-col gap-2">
-              <Link href="/app/dashboard" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="outline" className="w-full">
+              <Button variant="outline" className="w-full" asChild>
+                <Link href="/app/dashboard" onClick={() => setMobileMenuOpen(false)}>
                   Sign In
-                </Button>
-              </Link>
-              <Link href="/app/dashboard" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="primary" className="w-full">
+                </Link>
+              </Button>
+              <Button variant="primary" className="w-full" asChild>
+                <Link href="/app/dashboard" onClick={() => setMobileMenuOpen(false)}>
                   Run AI-SEO Audit
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
           </nav>
         </div>
