@@ -40,6 +40,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Prevent horizontal scroll on mobile */
+  overflow-x: hidden;
 }
 
 body {
@@ -49,6 +51,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.2s ease, color 0.2s ease;
+  /* Prevent horizontal scroll on mobile */
+  overflow-x: hidden;
+  /* Ensure proper touch scrolling on iOS */
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Scrollbar Styling */

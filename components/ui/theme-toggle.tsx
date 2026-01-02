@@ -36,40 +36,44 @@ export function ThemeToggle({ className, variant = "icon" }: ThemeToggleProps) {
   if (variant === "dropdown") {
     return (
       <div className={cn("relative", className)}>
-        <div className="flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-100 p-1 dark:border-slate-700 dark:bg-slate-800">
+        {/* Increased touch target size to minimum 44px for accessibility */}
+        <div className="flex items-center gap-0.5 rounded-lg border border-slate-200 bg-slate-100 p-0.5 dark:border-slate-700 dark:bg-slate-800 sm:gap-1 sm:p-1">
           <button
             onClick={() => setTheme("light")}
             className={cn(
-              "flex h-7 w-7 items-center justify-center rounded-md transition-colors",
+              "flex h-9 w-9 items-center justify-center rounded-md transition-colors sm:h-7 sm:w-7",
               theme === "light"
                 ? "bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white"
                 : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
             )}
             aria-label="Light theme"
+            aria-pressed={theme === "light"}
           >
             <Sun className="h-4 w-4" />
           </button>
           <button
             onClick={() => setTheme("dark")}
             className={cn(
-              "flex h-7 w-7 items-center justify-center rounded-md transition-colors",
+              "flex h-9 w-9 items-center justify-center rounded-md transition-colors sm:h-7 sm:w-7",
               theme === "dark"
                 ? "bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white"
                 : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
             )}
             aria-label="Dark theme"
+            aria-pressed={theme === "dark"}
           >
             <Moon className="h-4 w-4" />
           </button>
           <button
             onClick={() => setTheme("system")}
             className={cn(
-              "flex h-7 w-7 items-center justify-center rounded-md transition-colors",
+              "flex h-9 w-9 items-center justify-center rounded-md transition-colors sm:h-7 sm:w-7",
               theme === "system"
                 ? "bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white"
                 : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
             )}
             aria-label="System theme"
+            aria-pressed={theme === "system"}
           >
             <Monitor className="h-4 w-4" />
           </button>

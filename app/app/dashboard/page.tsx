@@ -188,18 +188,18 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="space-y-6" role="main" aria-label="AI-SEO Dashboard">
-      {/* Page Header */}
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Dashboard</h1>
-          <p className="text-slate-600 dark:text-slate-400">
+    <div className="space-y-4 sm:space-y-6" role="main" aria-label="AI-SEO Dashboard">
+      {/* Page Header - improved mobile layout */}
+      <div className="flex flex-col gap-3 sm:gap-4 md:flex-row md:items-center md:justify-between">
+        <div className="min-w-0">
+          <h1 className="text-xl font-bold text-slate-900 dark:text-white sm:text-2xl">Dashboard</h1>
+          <p className="text-sm text-slate-600 dark:text-slate-400 sm:text-base">
             AI visibility overview for <span className="font-medium">{brand.name}</span>
           </p>
         </div>
         <Link
           href="/app/audit"
-          className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-700 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:bg-indigo-500 dark:hover:bg-indigo-600"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-indigo-700 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:bg-indigo-500 dark:hover:bg-indigo-600 sm:w-auto"
         >
           <BarChart3 className="h-4 w-4" aria-hidden="true" />
           View Full Audit
@@ -214,11 +214,11 @@ export default function DashboardPage() {
         className="motion-reduce:transition-none"
       >
         <Card className="border-indigo-100 bg-gradient-to-r from-indigo-50 to-violet-50 dark:border-indigo-900 dark:from-indigo-950/50 dark:to-violet-950/50">
-          <CardContent className="p-6">
-            <div className="flex flex-col items-center gap-6 md:flex-row md:justify-between">
-              <div>
-                <div className="flex items-center gap-2">
-                  <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
+          <CardContent className="p-4 sm:p-6">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between md:gap-6">
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-wrap items-center gap-2">
+                  <h2 className="text-base font-semibold text-slate-900 dark:text-white sm:text-lg">
                     Overall AI-SEO Score
                   </h2>
                   <Tooltip>
@@ -226,27 +226,27 @@ export default function DashboardPage() {
                       <HelpCircle className="h-4 w-4 text-slate-400" aria-hidden="true" />
                       <span className="sr-only">What does this score mean?</span>
                     </TooltipTrigger>
-                    <TooltipContent className="max-w-sm">
-                      <p className="font-medium mb-1">Your AI Discoverability Index</p>
+                    <TooltipContent className="max-w-xs sm:max-w-sm">
+                      <p className="mb-1 font-medium">Your AI Discoverability Index</p>
                       <p>Weighted average across all 7 audit modules. This score predicts how likely AI assistants are to reference your content when users ask relevant questions.</p>
                     </TooltipContent>
                   </Tooltip>
                 </div>
-                <p className="text-sm text-slate-600 dark:text-slate-400">
+                <p className="mt-1 text-xs text-slate-600 dark:text-slate-400 sm:text-sm">
                   Aggregated readiness for AI-powered search discovery
                 </p>
               </div>
-              <div className="flex items-center gap-6">
+              <div className="flex items-center justify-center gap-4 sm:gap-6">
                 <div className="text-center">
                   <div 
-                    className="text-4xl font-bold text-indigo-600 dark:text-indigo-400"
+                    className="text-3xl font-bold text-indigo-600 dark:text-indigo-400 sm:text-4xl"
                     aria-label={`Overall score: ${overallScore} out of 100`}
                   >
                     {overallScore}
                   </div>
-                  <div className="text-sm text-slate-500 dark:text-slate-400">out of 100</div>
+                  <div className="text-xs text-slate-500 dark:text-slate-400 sm:text-sm">out of 100</div>
                 </div>
-                <div className="h-16 w-16" role="img" aria-label={`Score gauge showing ${overallScore}%`}>
+                <div className="h-14 w-14 sm:h-16 sm:w-16" role="img" aria-label={`Score gauge showing ${overallScore}%`}>
                   <svg className="h-full w-full -rotate-90" viewBox="0 0 36 36">
                     <circle
                       cx="18"

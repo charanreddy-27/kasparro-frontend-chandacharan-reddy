@@ -48,20 +48,22 @@ export function DashboardSidebar() {
 
   return (
     <>
-      {/* Mobile overlay */}
+      {/* Mobile overlay - improved touch handling */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/50 lg:hidden"
+          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden"
           onClick={toggleSidebar}
+          aria-hidden="true"
         />
       )}
 
-      {/* Sidebar */}
+      {/* Sidebar - improved mobile styles with safe area support */}
       <aside
         className={cn(
-          "fixed left-0 top-0 z-50 flex h-full w-64 flex-col border-r border-slate-200 bg-white transition-transform duration-300 dark:border-slate-700 dark:bg-slate-900 lg:static lg:translate-x-0",
+          "fixed left-0 top-0 z-50 flex h-full w-64 max-w-[80vw] flex-col border-r border-slate-200 bg-white transition-transform duration-300 ease-in-out dark:border-slate-700 dark:bg-slate-900 lg:static lg:max-w-none lg:translate-x-0",
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
+        aria-label="Main navigation"
       >
         {/* Header */}
         <div className="flex h-16 items-center justify-between border-b border-slate-200 px-4 dark:border-slate-700">
@@ -146,21 +148,34 @@ export function DashboardHeader() {
   const { toggleSidebar } = useAppStore();
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-slate-200 bg-white/80 px-4 backdrop-blur-lg dark:border-slate-700 dark:bg-slate-900/80 md:px-6">
+    <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-slate-200 bg-white/80 px-3 backdrop-blur-lg dark:border-slate-700 dark:bg-slate-900/80 sm:h-16 sm:px-4 md:px-6">
+      {/* Mobile menu button - increased tap target to 44px minimum */}
       <button
         onClick={toggleSidebar}
-        className="rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-300 lg:hidden"
+        className="flex h-11 w-11 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-300 lg:hidden"
+        aria-label="Toggle navigation menu"
       >
         <Menu className="h-5 w-5" />
       </button>
 
-      <div className="flex items-center gap-4">
+      {/* Spacer for desktop */}
+      <div className="hidden lg:block" />
+
+      <div className="flex items-center gap-2 sm:gap-4">
         <ThemeToggle variant="dropdown" />
-        <button className="relative rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-300">
+        {/* Notification button - 44px minimum tap target */}
+        <button 
+          className="relative flex h-11 w-11 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-300"
+          aria-label="View notifications"
+        >
           <Bell className="h-5 w-5" />
-          <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-red-500" />
+          <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-red-500" aria-label="New notifications" />
         </button>
-        <button className="rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-300">
+        {/* Settings button - 44px minimum tap target */}
+        <button 
+          className="flex h-11 w-11 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-300"
+          aria-label="Settings"
+        >
           <Settings className="h-5 w-5" />
         </button>
       </div>

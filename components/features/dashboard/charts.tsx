@@ -68,16 +68,16 @@ const CustomTooltip = React.memo(function CustomTooltip({
   if (active && payload && payload.length) {
     return (
       <div 
-        className="rounded-lg border border-slate-200 bg-white p-3 shadow-lg dark:border-slate-700 dark:bg-slate-800"
+        className="max-w-[200px] rounded-lg border border-slate-200 bg-white p-2 shadow-lg dark:border-slate-700 dark:bg-slate-800 sm:max-w-[250px] sm:p-3"
         role="tooltip"
       >
-        <p className="mb-2 text-sm font-medium text-slate-900 dark:text-white">
+        <p className="mb-1 text-xs font-medium text-slate-900 dark:text-white sm:mb-2 sm:text-sm">
           {label}
         </p>
         {payload.map((entry, index) => (
           <p
             key={index}
-            className="text-sm"
+            className="text-xs sm:text-sm"
             style={{ color: entry.color }}
           >
             {entry.name}: {entry.value}
@@ -144,25 +144,31 @@ export const SEOComparisonChart = React.memo(function SEOComparisonChart({
   return (
     <div role="img" aria-label={`SEO vs AI Visibility comparison chart. ${chartDescription}`}>
       <ResponsiveContainer width="100%" height={height}>
-        <BarChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+        {/* Adjusted margins for mobile - reduced left margin, allow axis to truncate */}
+        <BarChart data={data} margin={{ top: 10, right: 10, left: -10, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
           <XAxis
             dataKey="name"
-            tick={{ fill: textColor, fontSize: 12 }}
+            tick={{ fill: textColor, fontSize: 10 }}
             tickLine={{ stroke: gridColor }}
             axisLine={{ stroke: gridColor }}
+            interval={0}
+            angle={-45}
+            textAnchor="end"
+            height={60}
           />
           <YAxis
-            tick={{ fill: textColor, fontSize: 12 }}
+            tick={{ fill: textColor, fontSize: 10 }}
             tickLine={{ stroke: gridColor }}
             axisLine={{ stroke: gridColor }}
             domain={[0, 100]}
+            width={35}
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend
-            wrapperStyle={{ paddingTop: 20 }}
+            wrapperStyle={{ paddingTop: 10, fontSize: 12 }}
             formatter={(value) => (
-              <span className="text-sm text-slate-600 dark:text-slate-300">
+              <span className="text-xs text-slate-600 dark:text-slate-300 sm:text-sm">
                 {value}
               </span>
             )}
@@ -220,16 +226,19 @@ export const AIReadinessRadar = React.memo(function AIReadinessRadar({
   return (
     <div role="img" aria-label={`AI Readiness radar chart. ${chartDescription}`}>
       <ResponsiveContainer width="100%" height={height}>
-        <RadarChart data={data} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
+        {/* Adjusted margins for mobile - reduced all margins */}
+        <RadarChart data={data} margin={{ top: 10, right: 20, bottom: 10, left: 20 }}>
           <PolarGrid stroke={gridColor} />
           <PolarAngleAxis
             dataKey="metric"
-            tick={{ fill: textColor, fontSize: 11 }}
+            tick={{ fill: textColor, fontSize: 9 }}
+            tickLine={false}
           />
           <PolarRadiusAxis
             angle={30}
             domain={[0, 100]}
-            tick={{ fill: textColor, fontSize: 10 }}
+            tick={{ fill: textColor, fontSize: 8 }}
+            tickCount={4}
           />
           <Radar
             name="Your Score"
@@ -247,9 +256,9 @@ export const AIReadinessRadar = React.memo(function AIReadinessRadar({
             strokeDasharray="4 4"
           />
           <Legend
-            wrapperStyle={{ paddingTop: 20 }}
+            wrapperStyle={{ paddingTop: 10, fontSize: 11 }}
             formatter={(value) => (
-              <span className="text-sm text-slate-600 dark:text-slate-300">
+              <span className="text-xs text-slate-600 dark:text-slate-300">
                 {value}
               </span>
             )}
@@ -307,7 +316,8 @@ export const TrendChart = React.memo(function TrendChart({
   return (
     <div role="img" aria-label={`AI Visibility trend chart. ${chartDescription}`}>
       <ResponsiveContainer width="100%" height={height}>
-        <AreaChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+        {/* Adjusted margins for mobile */}
+        <AreaChart data={data} margin={{ top: 10, right: 10, left: -15, bottom: 5 }}>
           <defs>
             <linearGradient id="colorScore" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3} />
@@ -317,21 +327,23 @@ export const TrendChart = React.memo(function TrendChart({
           <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
           <XAxis
             dataKey="date"
-            tick={{ fill: textColor, fontSize: 12 }}
+            tick={{ fill: textColor, fontSize: 10 }}
             tickLine={{ stroke: gridColor }}
             axisLine={{ stroke: gridColor }}
+            interval="preserveStartEnd"
           />
           <YAxis
-            tick={{ fill: textColor, fontSize: 12 }}
+            tick={{ fill: textColor, fontSize: 10 }}
             tickLine={{ stroke: gridColor }}
             axisLine={{ stroke: gridColor }}
             domain={[40, 100]}
+            width={35}
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend
-            wrapperStyle={{ paddingTop: 20 }}
+            wrapperStyle={{ paddingTop: 10, fontSize: 11 }}
             formatter={(value) => (
-              <span className="text-sm text-slate-600 dark:text-slate-300">
+              <span className="text-xs text-slate-600 dark:text-slate-300">
                 {value}
               </span>
             )}
@@ -500,23 +512,24 @@ export const ModuleScoreChart = React.memo(function ModuleScoreChart({
         <BarChart
           data={chartData}
           layout="vertical"
-          margin={{ top: 20, right: 30, left: 100, bottom: 5 }}
+          margin={{ top: 10, right: 20, left: 10, bottom: 5 }}
         >
           <CartesianGrid strokeDasharray="3 3" stroke={gridColor} horizontal={false} />
           <XAxis
             type="number"
             domain={[0, 100]}
-            tick={{ fill: textColor, fontSize: 12 }}
+            tick={{ fill: textColor, fontSize: 10 }}
             tickLine={{ stroke: gridColor }}
             axisLine={{ stroke: gridColor }}
           />
           <YAxis
             type="category"
             dataKey="name"
-            tick={{ fill: textColor, fontSize: 12 }}
+            tick={{ fill: textColor, fontSize: 9 }}
             tickLine={{ stroke: gridColor }}
             axisLine={{ stroke: gridColor }}
-            width={90}
+            width={70}
+            tickFormatter={(value) => value.length > 10 ? `${value.slice(0, 10)}...` : value}
           />
           <Tooltip content={<CustomTooltip />} />
           <Bar
