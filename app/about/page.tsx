@@ -45,16 +45,16 @@ export default function AboutPage() {
       <PublicHeader />
       <main>
         {/* Hero Section */}
-        <section className="bg-gradient-to-b from-slate-50 to-white py-20 md:py-28">
+        <section className="bg-gradient-to-b from-slate-50 to-white py-20 dark:from-slate-900 dark:to-slate-950 md:py-28">
           <div className="container mx-auto px-4 md:px-6">
             <div className="mx-auto max-w-3xl text-center">
               <span className="mb-4 inline-block text-sm font-semibold uppercase tracking-wider text-indigo-600">
                 About Kasparro
               </span>
-              <h1 className="mb-6 text-4xl font-bold text-slate-900 md:text-5xl">
+              <h1 className="mb-6 text-4xl font-bold text-slate-900 dark:text-white md:text-5xl">
                 Building for the AI-First Search Era
               </h1>
-              <p className="text-lg text-slate-600">
+              <p className="text-lg text-slate-600 dark:text-slate-400">
                 Kasparro was founded on a simple observation: the way people search
                 for information is fundamentally changing, and brands need new
                 tools to stay visible.
@@ -64,35 +64,35 @@ export default function AboutPage() {
         </section>
 
         {/* Mission Section */}
-        <section className="bg-white py-20 md:py-28">
+        <section className="bg-white py-20 dark:bg-slate-950 md:py-28">
           <div className="container mx-auto px-4 md:px-6">
             <div className="mx-auto grid max-w-5xl gap-12 md:grid-cols-2 md:items-center">
               <div>
-                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-100">
-                  <Target className="h-7 w-7 text-indigo-600" />
+                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-100 dark:bg-indigo-900/50">
+                  <Target className="h-7 w-7 text-indigo-600 dark:text-indigo-400" />
                 </div>
-                <h2 className="mb-4 text-3xl font-bold text-slate-900">
+                <h2 className="mb-4 text-3xl font-bold text-slate-900 dark:text-white">
                   Our Mission
                 </h2>
-                <p className="mb-4 text-lg text-slate-600">
+                <p className="mb-4 text-lg text-slate-600 dark:text-slate-400">
                   To help every brand understand and optimize their presence in
                   AI-powered search engines—from ChatGPT and Gemini to Perplexity
                   and beyond.
                 </p>
-                <p className="text-slate-600">
+                <p className="text-slate-600 dark:text-slate-400">
                   Traditional SEO tools were built for a world of 10 blue links.
                   But AI search is different. It synthesizes information, makes
                   recommendations, and shapes perception in ways Google never did.
                   Brands need new intelligence to navigate this shift.
                 </p>
               </div>
-              <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-indigo-50 to-violet-50 p-8">
-                <blockquote className="text-lg italic text-slate-700">
+              <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-indigo-50 to-violet-50 p-8 dark:border-slate-700 dark:from-indigo-950/50 dark:to-violet-950/50">
+                <blockquote className="text-lg italic text-slate-700 dark:text-slate-300">
                   "In the AI search era, it's not about ranking #1 on Google.
                   It's about being the brand that AI recommends, cites, and
                   trusts."
                 </blockquote>
-                <div className="mt-4 text-sm font-medium text-slate-900">
+                <div className="mt-4 text-sm font-medium text-slate-900 dark:text-white">
                   — Kasparro Team
                 </div>
               </div>
@@ -101,35 +101,35 @@ export default function AboutPage() {
         </section>
 
         {/* Product Philosophy */}
-        <section className="bg-slate-50 py-20 md:py-28">
+        <section className="bg-slate-50 py-20 dark:bg-slate-900 md:py-28">
           <div className="container mx-auto px-4 md:px-6">
             <div className="mx-auto grid max-w-5xl gap-12 md:grid-cols-2 md:items-center">
               <div className="order-2 md:order-1">
                 <div className="space-y-6">
-                  <div className="rounded-xl border border-slate-200 bg-white p-6">
-                    <h3 className="mb-2 font-semibold text-slate-900">
+                  <div className="rounded-xl border border-slate-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-800">
+                    <h3 className="mb-2 font-semibold text-slate-900 dark:text-white">
                       Data Over Opinions
                     </h3>
-                    <p className="text-sm text-slate-600">
+                    <p className="text-sm text-slate-600 dark:text-slate-400">
                       Every insight in Kasparro is backed by real data from AI
                       platforms, not assumptions about how AI "should" work.
                     </p>
                   </div>
-                  <div className="rounded-xl border border-slate-200 bg-white p-6">
-                    <h3 className="mb-2 font-semibold text-slate-900">
+                  <div className="rounded-xl border border-slate-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-800">
+                    <h3 className="mb-2 font-semibold text-slate-900 dark:text-white">
                       Actionable First
                     </h3>
-                    <p className="text-sm text-slate-600">
+                    <p className="text-sm text-slate-600 dark:text-slate-400">
                       We don't just surface problems—we provide clear,
                       prioritized recommendations that teams can act on
                       immediately.
                     </p>
                   </div>
-                  <div className="rounded-xl border border-slate-200 bg-white p-6">
-                    <h3 className="mb-2 font-semibold text-slate-900">
+                  <div className="rounded-xl border border-slate-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-800">
+                    <h3 className="mb-2 font-semibold text-slate-900 dark:text-white">
                       System Thinking
                     </h3>
-                    <p className="text-sm text-slate-600">
+                    <p className="text-sm text-slate-600 dark:text-slate-400">
                       AI visibility isn't one metric—it's the result of many
                       interconnected factors. Our platform analyzes the whole
                       system.
@@ -138,13 +138,13 @@ export default function AboutPage() {
                 </div>
               </div>
               <div className="order-1 md:order-2">
-                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-violet-100">
-                  <Lightbulb className="h-7 w-7 text-violet-600" />
+                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-violet-100 dark:bg-violet-900/50">
+                  <Lightbulb className="h-7 w-7 text-violet-600 dark:text-violet-400" />
                 </div>
-                <h2 className="mb-4 text-3xl font-bold text-slate-900">
+                <h2 className="mb-4 text-3xl font-bold text-slate-900 dark:text-white">
                   Product Philosophy
                 </h2>
-                <p className="text-lg text-slate-600">
+                <p className="text-lg text-slate-600 dark:text-slate-400">
                   Kasparro is built on three core principles that guide every
                   feature we ship and every decision we make.
                 </p>
@@ -154,23 +154,23 @@ export default function AboutPage() {
         </section>
 
         {/* Vision Section */}
-        <section className="bg-white py-20 md:py-28">
+        <section className="bg-white py-20 dark:bg-slate-950 md:py-28">
           <div className="container mx-auto px-4 md:px-6">
             <div className="mx-auto max-w-3xl text-center">
-              <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-100">
-                <Rocket className="h-7 w-7 text-emerald-600" />
+              <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-100 dark:bg-emerald-900/50">
+                <Rocket className="h-7 w-7 text-emerald-600 dark:text-emerald-400" />
               </div>
-              <h2 className="mb-4 text-3xl font-bold text-slate-900">
+              <h2 className="mb-4 text-3xl font-bold text-slate-900 dark:text-white">
                 Our Vision for AI-First Search
               </h2>
-              <p className="mb-8 text-lg text-slate-600">
+              <p className="mb-8 text-lg text-slate-600 dark:text-slate-400">
                 We believe the next decade of search will be defined by AI. Users
                 will increasingly rely on AI assistants to find information, make
                 decisions, and discover brands. The companies that understand and
                 adapt to this shift will thrive. Those that don't will fade from
                 relevance.
               </p>
-              <p className="text-lg text-slate-600">
+              <p className="text-lg text-slate-600 dark:text-slate-400">
                 Kasparro exists to ensure that forward-thinking brands have the
                 intelligence and tools they need to win in this new era. We're
                 not just building analytics—we're building the foundation for how
@@ -181,13 +181,13 @@ export default function AboutPage() {
         </section>
 
         {/* Values Section */}
-        <section className="bg-slate-50 py-20 md:py-28">
+        <section className="bg-slate-50 py-20 dark:bg-slate-900 md:py-28">
           <div className="container mx-auto px-4 md:px-6">
             <div className="mx-auto max-w-3xl text-center">
-              <h2 className="mb-4 text-3xl font-bold text-slate-900">
+              <h2 className="mb-4 text-3xl font-bold text-slate-900 dark:text-white">
                 What We Stand For
               </h2>
-              <p className="mb-12 text-lg text-slate-600">
+              <p className="mb-12 text-lg text-slate-600 dark:text-slate-400">
                 Our values shape how we build products, serve customers, and
                 grow as a company.
               </p>
@@ -199,15 +199,15 @@ export default function AboutPage() {
                 return (
                   <div
                     key={index}
-                    className="rounded-2xl border border-slate-200 bg-white p-6 text-center"
+                    className="rounded-2xl border border-slate-200 bg-white p-6 text-center dark:border-slate-700 dark:bg-slate-800"
                   >
-                    <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100">
-                      <Icon className="h-6 w-6 text-slate-700" />
+                    <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-700">
+                      <Icon className="h-6 w-6 text-slate-700 dark:text-slate-300" />
                     </div>
-                    <h3 className="mb-2 text-lg font-semibold text-slate-900">
+                    <h3 className="mb-2 text-lg font-semibold text-slate-900 dark:text-white">
                       {value.title}
                     </h3>
-                    <p className="text-sm text-slate-600">{value.description}</p>
+                    <p className="text-sm text-slate-600 dark:text-slate-400">{value.description}</p>
                   </div>
                 );
               })}
@@ -226,7 +226,7 @@ export default function AboutPage() {
             </p>
             <Button
               size="xl"
-              className="bg-white text-indigo-700 hover:bg-indigo-50"
+              className="bg-white text-indigo-700 hover:bg-indigo-50 dark:bg-white dark:text-indigo-700 dark:hover:bg-indigo-50"
               asChild
             >
               <Link href="/app/dashboard">
