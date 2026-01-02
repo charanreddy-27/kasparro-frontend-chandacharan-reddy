@@ -33,7 +33,7 @@ const differences = [
 
 export function WhyAiSeoSection() {
   return (
-    <section className="bg-white py-20 md:py-28">
+    <section className="bg-white py-20 dark:bg-slate-950 md:py-28">
       <div className="container mx-auto px-4 md:px-6">
         <div className="mx-auto max-w-3xl text-center">
           <motion.span
@@ -49,7 +49,7 @@ export function WhyAiSeoSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="mb-4 text-3xl font-bold text-slate-900 md:text-4xl"
+            className="mb-4 text-3xl font-bold text-slate-900 dark:text-white md:text-4xl"
           >
             Why AI-SEO is Different
           </motion.h2>
@@ -58,7 +58,7 @@ export function WhyAiSeoSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="mb-12 text-lg text-slate-600"
+            className="mb-12 text-lg text-slate-600 dark:text-slate-400"
           >
             The search landscape has fundamentally changed. AI-powered search
             engines don't just rank pages—they understand, synthesize, and
@@ -77,11 +77,11 @@ export function WhyAiSeoSection() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="grid grid-cols-1 gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4 md:grid-cols-[1fr,auto,1fr] md:items-center md:p-6"
+                  className="grid grid-cols-1 gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800 md:grid-cols-[1fr,auto,1fr] md:items-center md:p-6"
                 >
                   {/* Traditional */}
-                  <div className="flex items-center gap-3 text-slate-500">
-                    <span className="hidden rounded-full bg-slate-200 px-3 py-1 text-xs font-medium md:inline-block">
+                  <div className="flex items-center gap-3 text-slate-500 dark:text-slate-400">
+                    <span className="hidden rounded-full bg-slate-200 px-3 py-1 text-xs font-medium dark:bg-slate-700 dark:text-slate-400 md:inline-block">
                       Traditional
                     </span>
                     <span className="text-sm line-through">{item.traditional}</span>
@@ -89,14 +89,14 @@ export function WhyAiSeoSection() {
 
                   {/* Icon */}
                   <div className="hidden md:flex md:items-center md:justify-center">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-100">
-                      <Icon className="h-5 w-5 text-indigo-600" />
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-900/50">
+                      <Icon className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
                     </div>
                   </div>
 
                   {/* AI SEO */}
-                  <div className="flex items-center gap-3 text-slate-900">
-                    <span className="rounded-full bg-indigo-100 px-3 py-1 text-xs font-medium text-indigo-700 md:hidden">
+                  <div className="flex items-center gap-3 text-slate-900 dark:text-white">
+                    <span className="rounded-full bg-indigo-100 px-3 py-1 text-xs font-medium text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300 md:hidden">
                       AI-SEO
                     </span>
                     <span className="text-sm font-medium">{item.aiSeo}</span>

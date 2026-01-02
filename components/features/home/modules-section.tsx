@@ -81,7 +81,7 @@ const modules: Module[] = [
 
 export function ModulesSection() {
   return (
-    <section className="bg-slate-50 py-20 md:py-28">
+    <section className="bg-slate-50 py-20 dark:bg-slate-900 md:py-28">
       <div className="container mx-auto px-4 md:px-6">
         <div className="mx-auto max-w-3xl text-center">
           <motion.span
@@ -97,7 +97,7 @@ export function ModulesSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="mb-4 text-3xl font-bold text-slate-900 md:text-4xl"
+            className="mb-4 text-3xl font-bold text-slate-900 dark:text-white md:text-4xl"
           >
             7 AI-Powered Audit Modules
           </motion.h2>
@@ -106,7 +106,7 @@ export function ModulesSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="mb-12 text-lg text-slate-600"
+            className="mb-12 text-lg text-slate-600 dark:text-slate-400"
           >
             Each module provides deep insights into different aspects of your
             AI search presence, powered by advanced analysis algorithms.
@@ -123,7 +123,7 @@ export function ModulesSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.05 }}
-                className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 transition-all hover:shadow-lg"
+                className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 transition-all hover:shadow-lg dark:border-slate-700 dark:bg-slate-800"
               >
                 {/* Gradient Background on Hover */}
                 <div
@@ -136,10 +136,10 @@ export function ModulesSection() {
                   <Icon className="h-6 w-6 text-white" />
                 </div>
 
-                <h3 className="mb-2 text-lg font-semibold text-slate-900">
+                <h3 className="mb-2 text-lg font-semibold text-slate-900 dark:text-white">
                   {module.name}
                 </h3>
-                <p className="text-sm text-slate-600">{module.description}</p>
+                <p className="text-sm text-slate-600 dark:text-slate-400">{module.description}</p>
               </motion.div>
             );
           })}
