@@ -79,13 +79,13 @@ const SnapshotCard = React.memo(function SnapshotCard({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, delay: index * 0.1 }}
+      transition={{ duration: 0.25, delay: index * 0.08 }}
       className="motion-reduce:transition-none"
     >
-      <Card>
-        <CardContent className="p-6">
-          <div className="flex items-start justify-between">
-            <div>
+      <Card className="h-full">
+        <CardContent className="p-5">
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0 flex-1">
               <div className="flex items-center gap-1.5">
                 <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
                   {card.title}
@@ -101,13 +101,13 @@ const SnapshotCard = React.memo(function SnapshotCard({
                 </Tooltip>
               </div>
               <p 
-                className="mt-2 text-2xl font-bold text-slate-900 dark:text-white"
+                className="mt-2 text-2xl font-bold tabular-nums text-slate-900 dark:text-white"
                 aria-label={card.ariaLabel}
               >
                 {card.value}
               </p>
             </div>
-            <div className={`rounded-lg p-2 ${card.bgColor}`}>
+            <div className={`shrink-0 rounded-lg p-2.5 ${card.bgColor}`}>
               <Icon className={`h-5 w-5 ${card.color}`} aria-hidden="true" />
             </div>
           </div>
@@ -199,7 +199,7 @@ export default function DashboardPage() {
         </div>
         <Link
           href="/app/audit"
-          className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-indigo-700 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:bg-indigo-500 dark:hover:bg-indigo-600 sm:w-auto"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition-all duration-150 hover:bg-indigo-700 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:bg-indigo-800 dark:bg-indigo-500 dark:hover:bg-indigo-600 dark:active:bg-indigo-700 sm:w-auto"
         >
           <BarChart3 className="h-4 w-4" aria-hidden="true" />
           View Full Audit
@@ -334,7 +334,7 @@ export default function DashboardPage() {
             </div>
             <Link
               href="/app/audit"
-              className="mt-4 block text-center text-sm font-medium text-indigo-600 hover:text-indigo-700 focus-visible:underline dark:text-indigo-400 dark:hover:text-indigo-300"
+              className="mt-4 block text-center text-sm font-medium text-indigo-600 transition-colors hover:text-indigo-700 focus-visible:underline focus-visible:outline-none dark:text-indigo-400 dark:hover:text-indigo-300"
             >
               View all issues →
             </Link>
@@ -499,19 +499,17 @@ export default function DashboardPage() {
             aria-label="Audit module scores"
           >
             {auditModules.slice(0, 4).map((module) => (
-              <motion.div
+              <div
                 key={module.id}
-                className="rounded-lg border border-slate-200 p-4 dark:border-slate-700"
-                whileHover={{ scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 400 }}
+                className="rounded-lg border border-slate-200 p-4 transition-all duration-150 hover:border-slate-300 hover:shadow-sm dark:border-slate-700 dark:hover:border-slate-600"
                 role="listitem"
               >
-                <div className="mb-2 flex items-center justify-between">
+                <div className="mb-2.5 flex items-center justify-between">
                   <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
                     {module.name}
                   </span>
                   <span
-                    className={`text-lg font-bold ${getScoreColor(module.score)}`}
+                    className={`text-lg font-bold tabular-nums ${getScoreColor(module.score)}`}
                     aria-label={`${module.name}: ${module.score} out of ${module.maxScore}`}
                   >
                     {module.score}
@@ -528,12 +526,12 @@ export default function DashboardPage() {
                         : "error"
                   }
                 />
-              </motion.div>
+              </div>
             ))}
           </div>
           <Link
             href="/app/audit"
-            className="mt-4 block text-center text-sm font-medium text-indigo-600 hover:text-indigo-700 focus-visible:underline dark:text-indigo-400 dark:hover:text-indigo-300"
+            className="mt-4 block text-center text-sm font-medium text-indigo-600 transition-colors hover:text-indigo-700 focus-visible:underline focus-visible:outline-none dark:text-indigo-400 dark:hover:text-indigo-300"
           >
             View all modules →
           </Link>

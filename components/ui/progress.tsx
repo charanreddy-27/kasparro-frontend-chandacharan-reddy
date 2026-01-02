@@ -51,20 +51,20 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
           aria-valuemax={100}
           aria-label={ariaLabel || `Progress: ${Math.round(percentage)}%`}
           className={cn(
-            "w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-700",
+            "w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-700/70",
             sizeClasses[size]
           )}
         >
           <div
             className={cn(
-              "h-full rounded-full transition-all duration-500 ease-out motion-reduce:transition-none",
+              "h-full rounded-full transition-[width] duration-500 ease-out motion-reduce:transition-none",
               colorClasses[color]
             )}
             style={{ width: `${percentage}%` }}
           />
         </div>
         {showLabel && (
-          <span className="mt-1 text-xs text-slate-500 dark:text-slate-400" aria-hidden="true">
+          <span className="mt-1 text-xs font-medium text-slate-500 dark:text-slate-400" aria-hidden="true">
             {Math.round(percentage)}%
           </span>
         )}

@@ -57,25 +57,23 @@ function InsightCard({ insight }: { insight: AuditInsight }) {
         : "text-slate-400 dark:text-slate-500";
 
   return (
-    <motion.div
+    <div
       // Fixed: Added max-w-full to prevent card from overflowing container
-      className="max-w-full rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800"
-      whileHover={{ scale: 1.02 }}
-      transition={{ type: "spring", stiffness: 400 }}
+      className="max-w-full rounded-lg border border-slate-200 bg-white p-4 transition-all duration-150 hover:border-slate-300 hover:shadow-sm dark:border-slate-700 dark:bg-slate-800 dark:hover:border-slate-600"
     >
       <div className="flex items-start justify-between gap-3">
         {/* Fixed: Added min-w-0 for proper flex truncation and text wrapping */}
         <div className="min-w-0 flex-1">
           <p className="break-words text-sm font-medium text-slate-900 dark:text-white">{insight.title}</p>
-          <p className="mt-1 break-words text-xs text-slate-500 dark:text-slate-400">{insight.description}</p>
+          <p className="mt-1 break-words text-xs leading-relaxed text-slate-500 dark:text-slate-400">{insight.description}</p>
         </div>
         {insight.value && (
           <div className="shrink-0 text-right">
-            <p className="text-lg font-bold text-slate-900 dark:text-white">{insight.value}</p>
+            <p className="text-lg font-bold tabular-nums text-slate-900 dark:text-white">{insight.value}</p>
             {insight.changePercent !== undefined && (
               <div className={`flex items-center justify-end gap-1 ${trendColor}`}>
                 <TrendIcon className="h-3 w-3" />
-                <span className="text-xs">
+                <span className="text-xs font-medium tabular-nums">
                   {insight.changePercent > 0 ? "+" : ""}
                   {insight.changePercent}%
                 </span>
@@ -84,7 +82,7 @@ function InsightCard({ insight }: { insight: AuditInsight }) {
           </div>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 }
 

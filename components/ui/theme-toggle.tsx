@@ -37,14 +37,14 @@ export function ThemeToggle({ className, variant = "icon" }: ThemeToggleProps) {
     return (
       <div className={cn("relative", className)}>
         {/* Increased touch target size to minimum 44px for accessibility */}
-        <div className="flex items-center gap-0.5 rounded-lg border border-slate-200 bg-slate-100 p-0.5 dark:border-slate-700 dark:bg-slate-800 sm:gap-1 sm:p-1">
+        <div className="flex items-center gap-0.5 rounded-lg border border-slate-200 bg-slate-100/80 p-0.5 dark:border-slate-700 dark:bg-slate-800/80">
           <button
             onClick={() => setTheme("light")}
             className={cn(
-              "flex h-9 w-9 items-center justify-center rounded-md transition-colors sm:h-7 sm:w-7",
+              "flex h-9 w-9 items-center justify-center rounded-md transition-all duration-150 sm:h-7 sm:w-7",
               theme === "light"
-                ? "bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white"
-                : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                ? "bg-white text-amber-600 shadow-sm dark:bg-slate-700 dark:text-amber-400"
+                : "text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300"
             )}
             aria-label="Light theme"
             aria-pressed={theme === "light"}
@@ -54,10 +54,10 @@ export function ThemeToggle({ className, variant = "icon" }: ThemeToggleProps) {
           <button
             onClick={() => setTheme("dark")}
             className={cn(
-              "flex h-9 w-9 items-center justify-center rounded-md transition-colors sm:h-7 sm:w-7",
+              "flex h-9 w-9 items-center justify-center rounded-md transition-all duration-150 sm:h-7 sm:w-7",
               theme === "dark"
-                ? "bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white"
-                : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                ? "bg-white text-indigo-600 shadow-sm dark:bg-slate-700 dark:text-indigo-400"
+                : "text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300"
             )}
             aria-label="Dark theme"
             aria-pressed={theme === "dark"}
@@ -67,10 +67,10 @@ export function ThemeToggle({ className, variant = "icon" }: ThemeToggleProps) {
           <button
             onClick={() => setTheme("system")}
             className={cn(
-              "flex h-9 w-9 items-center justify-center rounded-md transition-colors sm:h-7 sm:w-7",
+              "flex h-9 w-9 items-center justify-center rounded-md transition-all duration-150 sm:h-7 sm:w-7",
               theme === "system"
                 ? "bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white"
-                : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                : "text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300"
             )}
             aria-label="System theme"
             aria-pressed={theme === "system"}

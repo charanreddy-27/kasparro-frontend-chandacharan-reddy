@@ -113,7 +113,7 @@ export function ModulesSection() {
           </motion.p>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {modules.map((module, index) => {
             const Icon = module.icon;
             return (
@@ -122,24 +122,24 @@ export function ModulesSection() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
-                className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 transition-all hover:shadow-lg dark:border-slate-700 dark:bg-slate-800"
+                transition={{ delay: index * 0.05, duration: 0.3 }}
+                className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-200 hover:border-slate-300 hover:shadow-md dark:border-slate-700 dark:bg-slate-800 dark:hover:border-slate-600"
               >
                 {/* Gradient Background on Hover */}
                 <div
-                  className={`absolute inset-0 bg-gradient-to-br ${module.color} opacity-0 transition-opacity group-hover:opacity-5`}
+                  className={`absolute inset-0 bg-gradient-to-br ${module.color} opacity-0 transition-opacity duration-300 group-hover:opacity-[0.03]`}
                 />
 
                 <div
-                  className={`mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${module.color}`}
+                  className={`mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${module.color} shadow-sm`}
                 >
                   <Icon className="h-6 w-6 text-white" />
                 </div>
 
-                <h3 className="mb-2 text-lg font-semibold text-slate-900 dark:text-white">
+                <h3 className="mb-2 text-base font-semibold text-slate-900 dark:text-white">
                   {module.name}
                 </h3>
-                <p className="text-sm text-slate-600 dark:text-slate-400">{module.description}</p>
+                <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">{module.description}</p>
               </motion.div>
             );
           })}

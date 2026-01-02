@@ -79,15 +79,15 @@ export function DifferentiatorSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mx-auto max-w-4xl overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800"
+          className="mx-auto max-w-4xl overflow-hidden rounded-2xl border border-slate-200 shadow-sm dark:border-slate-700 dark:bg-slate-800"
         >
           {/* Header */}
           <div className="grid grid-cols-3 border-b border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-900">
-            <div className="p-4 font-medium text-slate-600 dark:text-slate-400">Feature</div>
-            <div className="border-l border-slate-200 p-4 text-center font-medium text-slate-500 dark:border-slate-700 dark:text-slate-400">
+            <div className="p-3 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 sm:p-4 sm:text-sm sm:font-medium sm:normal-case sm:tracking-normal">Feature</div>
+            <div className="border-l border-slate-200 p-3 text-center text-xs font-semibold uppercase tracking-wider text-slate-400 dark:border-slate-700 dark:text-slate-500 sm:p-4 sm:text-sm sm:font-medium sm:normal-case sm:tracking-normal">
               Traditional SEO
             </div>
-            <div className="border-l border-slate-200 bg-indigo-50 p-4 text-center font-medium text-indigo-700 dark:border-slate-700 dark:bg-indigo-900/30 dark:text-indigo-300">
+            <div className="border-l border-slate-200 bg-indigo-50 p-3 text-center text-xs font-semibold uppercase tracking-wider text-indigo-600 dark:border-slate-700 dark:bg-indigo-950/50 dark:text-indigo-300 sm:p-4 sm:text-sm sm:font-medium sm:normal-case sm:tracking-normal">
               Kasparro
             </div>
           </div>
@@ -96,15 +96,15 @@ export function DifferentiatorSection() {
           {comparisons.map((row, index) => (
             <div
               key={index}
-              className="grid grid-cols-3 border-b border-slate-100 last:border-b-0 dark:border-slate-700"
+              className="grid grid-cols-3 border-b border-slate-100 transition-colors last:border-b-0 hover:bg-slate-50/50 dark:border-slate-700/70 dark:hover:bg-slate-800/50"
             >
-              <div className="p-4 text-sm font-medium text-slate-900 dark:text-white">
+              <div className="p-3 text-xs font-medium text-slate-900 dark:text-white sm:p-4 sm:text-sm">
                 {row.feature}
               </div>
-              <div className="border-l border-slate-100 p-4 text-center text-sm text-slate-600 dark:border-slate-700 dark:text-slate-400">
+              <div className="border-l border-slate-100 p-3 text-center text-xs text-slate-500 dark:border-slate-700/70 dark:text-slate-400 sm:p-4 sm:text-sm">
                 {row.traditional}
               </div>
-              <div className="border-l border-slate-100 bg-indigo-50/30 p-4 text-center text-sm font-medium text-slate-900 dark:border-slate-700 dark:bg-indigo-900/20 dark:text-white">
+              <div className="border-l border-slate-100 bg-indigo-50/50 p-3 text-center text-xs font-medium text-slate-900 dark:border-slate-700/70 dark:bg-indigo-950/30 dark:text-white sm:p-4 sm:text-sm">
                 {row.kasparro}
               </div>
             </div>
@@ -117,23 +117,23 @@ export function DifferentiatorSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3 }}
-          className="mx-auto mt-12 grid max-w-4xl gap-6 md:grid-cols-3"
+          className="mx-auto mt-12 grid max-w-4xl gap-5 sm:grid-cols-3"
         >
-          <div className="rounded-xl border border-slate-200 bg-white p-6 text-center dark:border-slate-700 dark:bg-slate-800">
-            <div className="mb-2 text-3xl font-bold text-indigo-600 dark:text-indigo-400">AI-First</div>
-            <p className="text-sm text-slate-600 dark:text-slate-400">
+          <div className="rounded-xl border border-slate-200 bg-white p-6 text-center shadow-sm transition-shadow hover:shadow-md dark:border-slate-700 dark:bg-slate-800">
+            <div className="mb-2 text-2xl font-bold text-indigo-600 dark:text-indigo-400 sm:text-3xl">AI-First</div>
+            <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
               Built specifically for the AI search era, not retrofitted
             </p>
           </div>
-          <div className="rounded-xl border border-slate-200 bg-white p-6 text-center dark:border-slate-700 dark:bg-slate-800">
-            <div className="mb-2 text-3xl font-bold text-indigo-600 dark:text-indigo-400">Actionable</div>
-            <p className="text-sm text-slate-600 dark:text-slate-400">
+          <div className="rounded-xl border border-slate-200 bg-white p-6 text-center shadow-sm transition-shadow hover:shadow-md dark:border-slate-700 dark:bg-slate-800">
+            <div className="mb-2 text-2xl font-bold text-indigo-600 dark:text-indigo-400 sm:text-3xl">Actionable</div>
+            <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
               Every insight comes with clear, prioritized recommendations
             </p>
           </div>
-          <div className="rounded-xl border border-slate-200 bg-white p-6 text-center dark:border-slate-700 dark:bg-slate-800">
-            <div className="mb-2 text-3xl font-bold text-indigo-600 dark:text-indigo-400">Future-Ready</div>
-            <p className="text-sm text-slate-600 dark:text-slate-400">
+          <div className="rounded-xl border border-slate-200 bg-white p-6 text-center shadow-sm transition-shadow hover:shadow-md dark:border-slate-700 dark:bg-slate-800">
+            <div className="mb-2 text-2xl font-bold text-indigo-600 dark:text-indigo-400 sm:text-3xl">Future-Ready</div>
+            <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
               Stay ahead as AI search continues to evolve
             </p>
           </div>

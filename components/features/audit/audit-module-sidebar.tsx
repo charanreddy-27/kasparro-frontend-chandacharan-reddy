@@ -47,21 +47,20 @@ export function AuditModuleSidebar() {
             <motion.button
               key={module.id}
               onClick={() => setSelectedModuleId(module.id)}
-              initial={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.2, delay: index * 0.05 }}
-              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.2, delay: index * 0.03 }}
               className={cn(
-                "flex w-full items-center gap-3 rounded-lg p-3 text-left transition-colors",
+                "flex w-full items-center gap-3 rounded-lg p-3 text-left transition-all duration-150",
                 isSelected
-                  ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300"
-                  : "text-slate-600 hover:bg-slate-50 dark:text-slate-400 dark:hover:bg-slate-700/50"
+                  ? "bg-indigo-50 text-indigo-700 shadow-sm dark:bg-indigo-950/40 dark:text-indigo-300"
+                  : "text-slate-600 hover:bg-slate-50 dark:text-slate-400 dark:hover:bg-slate-800/50"
               )}
             >
               <div
                 className={cn(
-                  "flex h-9 w-9 items-center justify-center rounded-lg",
-                  isSelected ? "bg-indigo-100 dark:bg-indigo-900/50" : "bg-slate-100 dark:bg-slate-700"
+                  "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors",
+                  isSelected ? "bg-indigo-100 dark:bg-indigo-900/60" : "bg-slate-100 dark:bg-slate-700/70"
                 )}
               >
                 <Icon
@@ -80,7 +79,7 @@ export function AuditModuleSidebar() {
                 >
                   {module.name}
                 </p>
-                <div className="mt-1 flex items-center gap-2">
+                <div className="mt-1.5 flex items-center gap-2">
                   <Progress
                     value={module.score}
                     max={module.maxScore}
@@ -96,7 +95,7 @@ export function AuditModuleSidebar() {
                   />
                   <span
                     className={cn(
-                      "text-xs font-medium",
+                      "text-xs font-semibold tabular-nums",
                       module.score >= 80
                         ? "text-emerald-600 dark:text-emerald-400"
                         : module.score >= 60

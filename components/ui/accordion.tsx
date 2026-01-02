@@ -110,7 +110,8 @@ export function AccordionItem({
     <AccordionItemContext.Provider value={{ value, isOpen, triggerId, contentId }}>
       <div
         className={cn(
-          "rounded-lg border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800",
+          "rounded-lg border border-slate-200 bg-white transition-shadow duration-200 dark:border-slate-700 dark:bg-slate-800",
+          isOpen && "shadow-sm",
           className
         )}
       >
@@ -146,10 +147,10 @@ export function AccordionTrigger({
       onClick={() => toggleItem(value)}
       onKeyDown={handleKeyDown}
       className={cn(
-        "flex w-full items-center justify-between px-4 py-3 text-left text-sm font-medium transition-colors",
-        "text-slate-900 hover:bg-slate-50 dark:text-white dark:hover:bg-slate-700/50",
-        "focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-inset",
-        isOpen && "bg-slate-50 dark:bg-slate-700/50",
+        "flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left text-sm font-medium transition-colors duration-150",
+        "text-slate-900 hover:bg-slate-50 dark:text-white dark:hover:bg-slate-800/50",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-inset",
+        isOpen && "bg-slate-50/50 dark:bg-slate-800/30",
         className
       )}
       aria-expanded={isOpen}
@@ -158,10 +159,10 @@ export function AccordionTrigger({
       {children}
       <motion.div
         animate={{ rotate: isOpen ? 180 : 0 }}
-        transition={{ duration: 0.2 }}
-        className="motion-reduce:transition-none"
+        transition={{ duration: 0.15, ease: "easeOut" }}
+        className="shrink-0 motion-reduce:transition-none"
       >
-        <ChevronDown className="h-4 w-4 text-slate-500 dark:text-slate-400" aria-hidden="true" />
+        <ChevronDown className="h-4 w-4 text-slate-400 dark:text-slate-500" aria-hidden="true" />
       </motion.div>
     </button>
   );
@@ -188,12 +189,12 @@ export function AccordionContent({
           initial={{ height: 0, opacity: 0 }}
           animate={{ height: "auto", opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
-          transition={{ duration: 0.2, ease: "easeInOut" }}
+          transition={{ duration: 0.15, ease: [0.33, 1, 0.68, 1] }}
           className="overflow-hidden motion-reduce:transition-none"
         >
           <div
             className={cn(
-              "border-t border-slate-200 px-4 py-3 dark:border-slate-700",
+              "border-t border-slate-100 px-4 py-4 dark:border-slate-700/70",
               className
             )}
           >
