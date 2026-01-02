@@ -30,7 +30,10 @@ export function AuditModuleSidebar() {
   const { selectedModuleId, setSelectedModuleId } = useAppStore();
 
   return (
-    <div className="w-full rounded-xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800 lg:w-72">
+    // Fixed: Added shrink-0 to prevent sidebar from shrinking
+    // Mobile: full width, Desktop: fixed 288px (w-72)
+    // Added max-w-full to prevent overflow on mobile
+    <div className="w-full max-w-full shrink-0 rounded-xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800 lg:w-72">
       <div className="border-b border-slate-200 p-4 dark:border-slate-700">
         <h2 className="font-semibold text-slate-900 dark:text-white">Audit Modules</h2>
         <p className="text-sm text-slate-500 dark:text-slate-400">Select a module to view details</p>

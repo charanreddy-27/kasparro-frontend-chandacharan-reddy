@@ -58,20 +58,22 @@ function InsightCard({ insight }: { insight: AuditInsight }) {
 
   return (
     <motion.div
-      className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800"
+      // Fixed: Added max-w-full to prevent card from overflowing container
+      className="max-w-full rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800"
       whileHover={{ scale: 1.02 }}
       transition={{ type: "spring", stiffness: 400 }}
     >
-      <div className="flex items-start justify-between">
-        <div className="flex-1">
-          <p className="text-sm font-medium text-slate-900 dark:text-white">{insight.title}</p>
-          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{insight.description}</p>
+      <div className="flex items-start justify-between gap-3">
+        {/* Fixed: Added min-w-0 for proper flex truncation and text wrapping */}
+        <div className="min-w-0 flex-1">
+          <p className="break-words text-sm font-medium text-slate-900 dark:text-white">{insight.title}</p>
+          <p className="mt-1 break-words text-xs text-slate-500 dark:text-slate-400">{insight.description}</p>
         </div>
         {insight.value && (
-          <div className="text-right">
+          <div className="shrink-0 text-right">
             <p className="text-lg font-bold text-slate-900 dark:text-white">{insight.value}</p>
             {insight.changePercent !== undefined && (
-              <div className={`flex items-center gap-1 ${trendColor}`}>
+              <div className={`flex items-center justify-end gap-1 ${trendColor}`}>
                 <TrendIcon className="h-3 w-3" />
                 <span className="text-xs">
                   {insight.changePercent > 0 ? "+" : ""}
@@ -122,25 +124,29 @@ function IssueCard({ issue }: { issue: AuditIssue }) {
   const Icon = config.icon;
 
   return (
+    // Fixed: Added max-w-full to prevent card overflow on mobile
     <div
-      className={`rounded-lg border p-4 ${config.bg} ${config.border}`}
+      className={`max-w-full rounded-lg border p-4 ${config.bg} ${config.border}`}
     >
       <div className="flex items-start gap-3">
-        <Icon className={`mt-0.5 h-5 w-5 ${config.color}`} />
-        <div className="flex-1">
-          <div className="flex items-center gap-2">
-            <p className="font-medium text-slate-900 dark:text-white">{issue.title}</p>
-            <Badge variant={config.badge} className="capitalize">
+        {/* Fixed: Added shrink-0 to prevent icon from shrinking */}
+        <Icon className={`mt-0.5 h-5 w-5 shrink-0 ${config.color}`} />
+        {/* Fixed: Added min-w-0 for proper flex truncation and text wrapping */}
+        <div className="min-w-0 flex-1">
+          {/* Fixed: Changed to flex-wrap for mobile, allow title to wrap */}
+          <div className="flex flex-wrap items-center gap-2">
+            <p className="break-words font-medium text-slate-900 dark:text-white">{issue.title}</p>
+            <Badge variant={config.badge} className="shrink-0 capitalize">
               {issue.severity}
             </Badge>
           </div>
-          <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{issue.description}</p>
+          <p className="mt-1 break-words text-sm text-slate-600 dark:text-slate-300">{issue.description}</p>
           {issue.affectedElements && issue.affectedElements.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1">
               {issue.affectedElements.map((element, i) => (
                 <span
                   key={i}
-                  className="rounded bg-white/50 px-2 py-0.5 text-xs text-slate-600 dark:bg-slate-800/50 dark:text-slate-300"
+                  className="break-all rounded bg-white/50 px-2 py-0.5 text-xs text-slate-600 dark:bg-slate-800/50 dark:text-slate-300"
                 >
                   {element}
                 </span>
@@ -167,26 +173,30 @@ function RecommendationCard({
   const config = priorityConfig[recommendation.priority];
 
   return (
-    <div className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800">
+    // Fixed: Added max-w-full to prevent card overflow on mobile
+    <div className="max-w-full rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800">
       <div className="flex items-start gap-3">
-        <div className="rounded-lg bg-indigo-100 p-2 dark:bg-indigo-900/50">
+        {/* Fixed: Added shrink-0 to prevent icon container from shrinking */}
+        <div className="shrink-0 rounded-lg bg-indigo-100 p-2 dark:bg-indigo-900/50">
           <Lightbulb className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
         </div>
-        <div className="flex-1">
-          <div className="flex items-center gap-2">
-            <p className="font-medium text-slate-900 dark:text-white">{recommendation.title}</p>
+        {/* Fixed: Added min-w-0 for proper flex truncation and text wrapping */}
+        <div className="min-w-0 flex-1">
+          {/* Fixed: Changed to flex-wrap for mobile */}
+          <div className="flex flex-wrap items-center gap-2">
+            <p className="break-words font-medium text-slate-900 dark:text-white">{recommendation.title}</p>
             <span
-              className={`rounded-full px-2 py-0.5 text-xs font-medium capitalize ${config.bg} ${config.color}`}
+              className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium capitalize ${config.bg} ${config.color}`}
             >
               {recommendation.priority}
             </span>
           </div>
-          <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
+          <p className="mt-1 break-words text-sm text-slate-600 dark:text-slate-300">
             {recommendation.description}
           </p>
-          <div className="mt-2 flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400">
-            <ArrowUpRight className="h-3 w-3" />
-            <span>Expected: {recommendation.estimatedImpact}</span>
+          <div className="mt-2 flex flex-wrap items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400">
+            <ArrowUpRight className="h-3 w-3 shrink-0" />
+            <span className="break-words">Expected: {recommendation.estimatedImpact}</span>
           </div>
         </div>
       </div>
@@ -200,7 +210,9 @@ export function AuditModuleDetail() {
 
   if (!module) {
     return (
-      <div className="flex flex-1 items-center justify-center rounded-xl border border-slate-200 bg-white p-8 dark:border-slate-700 dark:bg-slate-800">
+      // Fixed: Added min-w-0 and w-full for proper flex behavior on mobile
+      // Added min-h-[200px] for visual consistency
+      <div className="flex min-h-[200px] w-full min-w-0 flex-1 items-center justify-center rounded-xl border border-slate-200 bg-white p-8 dark:border-slate-700 dark:bg-slate-800">
         <div className="text-center">
           <p className="text-slate-500 dark:text-slate-400">Select a module to view details</p>
         </div>
@@ -210,26 +222,32 @@ export function AuditModuleDetail() {
 
   return (
     <AnimatePresence mode="wait">
+      {/* Fixed: Removed overflow-y-auto to prevent nested scroll containers
+          Added min-w-0 and w-full for proper flex behavior and text wrapping
+          Content now scrolls naturally with the page */}
       <motion.div
         key={module.id}
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: -20 }}
         transition={{ duration: 0.2 }}
-        className="flex-1 space-y-6 overflow-y-auto"
+        className="w-full min-w-0 flex-1 space-y-6"
       >
         {/* Module Header */}
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
+            {/* Fixed: Added gap and proper wrapping for mobile */}
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-              <div>
-                <h1 className="text-2xl font-bold text-slate-900 dark:text-white">{module.name}</h1>
-                <p className="mt-1 text-slate-600 dark:text-slate-400">{module.description}</p>
+              {/* Fixed: Added min-w-0 for proper text truncation in flex */}
+              <div className="min-w-0 flex-1">
+                <h1 className="break-words text-xl font-bold text-slate-900 dark:text-white sm:text-2xl">{module.name}</h1>
+                <p className="mt-1 break-words text-sm text-slate-600 dark:text-slate-400 sm:text-base">{module.description}</p>
               </div>
-              <div className="flex items-center gap-6">
+              {/* Fixed: Added shrink-0 and responsive sizing */}
+              <div className="flex shrink-0 items-center gap-4 sm:gap-6">
                 <div className="text-center">
                   <div
-                    className={`text-4xl font-bold ${getScoreColor(module.score)}`}
+                    className={`text-3xl font-bold sm:text-4xl ${getScoreColor(module.score)}`}
                   >
                     {module.score}
                   </div>
@@ -237,7 +255,8 @@ export function AuditModuleDetail() {
                     / {module.maxScore}
                   </div>
                 </div>
-                <div className="h-20 w-20">
+                {/* Fixed: Responsive sizing for score circle */}
+                <div className="h-16 w-16 sm:h-20 sm:w-20">
                   <svg
                     className="h-full w-full -rotate-90"
                     viewBox="0 0 36 36"
@@ -270,10 +289,11 @@ export function AuditModuleDetail() {
                 </div>
               </div>
             </div>
-            <div className="mt-4 flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
+            {/* Fixed: Added flex-wrap for mobile */}
+            <div className="mt-4 flex flex-wrap items-center gap-2 text-sm text-slate-500 dark:text-slate-400 sm:gap-4">
               <div className="flex items-center gap-1">
-                <Clock className="h-4 w-4" />
-                <span>
+                <Clock className="h-4 w-4 shrink-0" />
+                <span className="break-words">
                   Last updated: {formatRelativeTime(module.lastUpdated)}
                 </span>
               </div>
